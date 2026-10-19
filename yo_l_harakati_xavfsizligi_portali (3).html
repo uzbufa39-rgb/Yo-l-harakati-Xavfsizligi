@@ -1,0 +1,2218 @@
+<!DOCTYPE html>
+<html lang="uz" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>O'zbekistonda Yo'l Harakati Xavfsizligi | Безопасность Дорожного Движения Узбекистана</title>
+  <meta name="description" content="O'zbekistonda yo'l harakati xavfsizligi portali: statistika, radarlar xaritasi, jarimalar va jarima ballari hisoblagichi.">
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              yellow: '#F59E0B',
+              amber: '#D97706',
+              red: '#EF4444',
+              dark: '#0B0F19',
+              lightBg: '#F8FAFC',
+              cardDark: '#111827',
+              cardLight: '#FFFFFF',
+              borderDark: '#1F2937',
+              borderLight: '#E2E8F0'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Maxsus scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    .dark ::-webkit-scrollbar-track {
+      background: #0B0F19;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F1F5F9;
+    }
+    .dark ::-webkit-scrollbar-thumb {
+      background: #374151;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #CBD5E1;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #F59E0B;
+    }
+
+    /* Asfalt fon effekti */
+    .dark .asphalt-pattern {
+      background-color: #0B0F19;
+      background-image: radial-gradient(rgba(245, 158, 11, 0.08) 1px, transparent 1px), radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 32px 32px;
+      background-position: 0 0, 16px 16px;
+    }
+    .asphalt-pattern {
+      background-color: #F8FAFC;
+      background-image: radial-gradient(rgba(245, 158, 11, 0.15) 1px, transparent 1px), radial-gradient(rgba(15, 23, 42, 0.04) 1px, transparent 1px);
+      background-size: 32px 32px;
+      background-position: 0 0, 16px 16px;
+    }
+
+    /* Burger menyu chiziqlari animatsiyasi */
+    .burger-line {
+      transition: all 0.3s ease-in-out;
+      transform-origin: center;
+    }
+    .burger-active .line-1 {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .burger-active .line-2 {
+      opacity: 0;
+      transform: scale(0);
+    }
+    .burger-active .line-3 {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* Quyosh / Oy almashish animatsiyasi */
+    .theme-icon-transition {
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+    }
+  </style>
+</head>
+<body class="bg-[#F8FAFC] dark:bg-[#0B0F19] text-gray-800 dark:text-gray-100 font-sans transition-colors duration-300 antialiased selection:bg-amber-500 selection:text-black">
+
+  <header class="sticky top-0 z-50 bg-white/90 dark:bg-[#0B0F19]/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 sm:h-20">
+        
+        <!-- Logo -->
+        <a href="#hero" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-amber-500 to-red-500 flex items-center justify-center text-white shadow-lg shadow-amber-500/25 group-hover:scale-105 transition-transform">
+            <i class="fa-solid fa-shield-halved text-xl"></i>
+          </div>
+          <div>
+            <span class="text-base sm:text-lg font-black tracking-tight text-gray-900 dark:text-white block leading-tight">
+              YOL-HARAKATI<span class="text-amber-500">.UZ</span>
+            </span>
+            <span class="text-[10px] text-gray-500 dark:text-gray-400 tracking-wider uppercase font-semibold block" data-i18n="navSubtitle">
+              Yo'l Xavfsizligi Portali
+            </span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden lg:flex items-center gap-6 text-sm font-medium text-gray-700 dark:text-gray-300">
+          <a href="#hero" class="hover:text-amber-500 transition-colors" data-i18n="navHome">Bosh sahifa</a>
+          <a href="#statistika" class="hover:text-amber-500 transition-colors" data-i18n="navStats">Statistika</a>
+          <a href="#radarlar" class="hover:text-amber-500 transition-colors" data-i18n="navRadars">Radarlar</a>
+          <a href="#taqiqlar" class="hover:text-amber-500 transition-colors" data-i18n="navZones">Taqiqlar</a>
+          <a href="#jarimalar" class="hover:text-amber-500 transition-colors" data-i18n="navFines">Jarimalar</a>
+          <a href="#ball-kalkulyator" class="hover:text-amber-500 transition-colors" data-i18n="navPoints">Ball hisoblagich</a>
+          <a href="#yomon-yollar" class="hover:text-amber-500 transition-colors" data-i18n="navReports">Murojaat</a>
+        </nav>
+
+        <!-- Right Controls: Language Switch, Theme Toggle (Sun/Moon), Burger Button -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          
+          <!-- Language Selector (UZB / RUS) -->
+          <div class="flex items-center bg-gray-100 dark:bg-gray-800 p-1 rounded-xl border border-gray-300 dark:border-gray-700">
+            <button id="langUzBtn" class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all bg-amber-500 text-gray-950 shadow-sm" title="O'zbek tili">
+              UZ
+            </button>
+            <button id="langRuBtn" class="px-2.5 py-1 text-xs font-bold text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white rounded-lg transition-all" title="Русский язык">
+              RU
+            </button>
+          </div>
+
+          <!-- Day / Night Mode Toggle Switch (Sun / Moon) -->
+          <button id="themeToggleBtn" aria-label="Kun/Tun rejimini almashtirish" class="relative w-10 h-10 rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-700 flex items-center justify-center text-amber-500 shadow-sm overflow-hidden transition-all">
+            <!-- Sun Icon (for Light mode trigger) -->
+            <i class="fa-solid fa-sun text-lg absolute theme-icon-transition hidden dark:block text-amber-400" id="sunIcon" title="Kunduzgi rejimga o'tish"></i>
+            <!-- Moon Icon (for Dark mode trigger) -->
+            <i class="fa-solid fa-moon text-lg absolute theme-icon-transition block dark:hidden text-indigo-600" id="moonIcon" title="Tungi rejimga o'tish"></i>
+          </button>
+
+          <!-- Desktop Quick Action Button -->
+          <a href="#ball-kalkulyator" class="hidden md:inline-flex items-center gap-2 px-3.5 py-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-gray-950 font-bold text-xs uppercase tracking-wider rounded-xl shadow-md hover:shadow-amber-500/25 transition-all">
+            <i class="fa-solid fa-calculator"></i> <span data-i18n="quickCalcBtn">Kalkulyator</span>
+          </a>
+
+          <!-- Animated Burger Menu Button -->
+          <button id="burgerBtn" aria-label="Menyuni ochish" class="lg:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5 rounded-xl bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 p-2 focus:outline-none">
+            <span class="burger-line line-1 w-5 h-0.5 bg-gray-800 dark:bg-gray-200 rounded-full"></span>
+            <span class="burger-line line-2 w-5 h-0.5 bg-gray-800 dark:bg-gray-200 rounded-full"></span>
+            <span class="burger-line line-3 w-5 h-0.5 bg-gray-800 dark:bg-gray-200 rounded-full"></span>
+          </button>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer Navigation (Slide Down) -->
+    <div id="mobileDrawer" class="hidden lg:hidden bg-white/95 dark:bg-[#0B0F19]/95 backdrop-blur-xl border-b border-gray-200 dark:border-gray-800 px-4 pt-3 pb-6 transition-all duration-300 shadow-2xl">
+      <nav class="flex flex-col space-y-2">
+        <a href="#hero" class="mobile-nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-base font-semibold text-gray-800 dark:text-gray-200 hover:bg-amber-500/10 hover:text-amber-500 transition-colors">
+          <i class="fa-solid fa-house w-5 text-amber-500"></i> <span data-i18n="navHome">Bosh sahifa</span>
+        </a>
+        <a href="#statistika" class="mobile-nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-base font-semibold text-gray-800 dark:text-gray-200 hover:bg-amber-500/10 hover:text-amber-500 transition-colors">
+          <i class="fa-solid fa-chart-line w-5 text-amber-500"></i> <span data-i18n="navStats">Statistika</span>
+        </a>
+        <a href="#radarlar" class="mobile-nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-base font-semibold text-gray-800 dark:text-gray-200 hover:bg-amber-500/10 hover:text-amber-500 transition-colors">
+          <i class="fa-solid fa-camera w-5 text-amber-500"></i> <span data-i18n="navRadars">Radarlar</span>
+        </a>
+        <a href="#taqiqlar" class="mobile-nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-base font-semibold text-gray-800 dark:text-gray-200 hover:bg-amber-500/10 hover:text-amber-500 transition-colors">
+          <i class="fa-solid fa-ban w-5 text-amber-500"></i> <span data-i18n="navZones">Taqiqlangan zonalar</span>
+        </a>
+        <a href="#jarimalar" class="mobile-nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-base font-semibold text-gray-800 dark:text-gray-200 hover:bg-amber-500/10 hover:text-amber-500 transition-colors">
+          <i class="fa-solid fa-receipt w-5 text-amber-500"></i> <span data-i18n="navFines">Jarimalar jadvali</span>
+        </a>
+        <a href="#ball-kalkulyator" class="mobile-nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-base font-semibold text-gray-800 dark:text-gray-200 hover:bg-amber-500/10 hover:text-amber-500 transition-colors">
+          <i class="fa-solid fa-calculator w-5 text-amber-500"></i> <span data-i18n="navPoints">Ball hisoblagich</span>
+        </a>
+        <a href="#yomon-yollar" class="mobile-nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-base font-semibold text-gray-800 dark:text-gray-200 hover:bg-amber-500/10 hover:text-amber-500 transition-colors">
+          <i class="fa-solid fa-triangle-exclamation w-5 text-amber-500"></i> <span data-i18n="navReports">Yomon yo'l xabari</span>
+        </a>
+      </nav>
+      <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-800 flex justify-center">
+        <a href="#ball-kalkulyator" class="w-full py-3 bg-amber-500 text-gray-950 font-bold text-center rounded-xl uppercase tracking-wider text-xs shadow-md">
+          <i class="fa-solid fa-calculator mr-2"></i> <span data-i18n="quickCalcBtn">Kalkulyator</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="hero" class="relative pt-10 sm:pt-16 pb-16 sm:pb-24 overflow-hidden asphalt-pattern border-b border-gray-200 dark:border-gray-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center max-w-3xl mx-auto">
+          
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-600 dark:text-amber-400 text-xs font-semibold mb-6">
+            <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
+            <span data-i18n="heroBadge">IIV YHX Xizmati Rasmiy Ma'lumotlari Asosida</span>
+          </div>
+
+          <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 dark:text-white tracking-tight leading-tight mb-6">
+            <span data-i18n="heroTitle1">Yo'l Harakati Xavfsizligi —</span> <br class="hidden sm:inline">
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-600" data-i18n="heroTitle2">
+              Har Bir Hayot Qadrli
+            </span>
+          </h1>
+
+          <p class="text-gray-600 dark:text-gray-300 text-base sm:text-lg mb-8 leading-relaxed" data-i18n="heroDesc">
+            Tezlik, e'tiborsizlik va qoidabuzarlik soniyalar ichida hayotni o'zgartirishi mumkin. O'zbekiston yo'llaridagi real vaziyat, jarima ballari tizimi va xavfsizlik tavsiyalari bilan tanishing.
+          </p>
+
+          <div class="flex flex-wrap justify-center gap-4">
+            <a href="#statistika" class="px-6 py-3.5 bg-amber-500 hover:bg-amber-600 text-gray-950 font-bold rounded-xl shadow-lg shadow-amber-500/25 transition-all flex items-center gap-2">
+              <i class="fa-solid fa-chart-line"></i> <span data-i18n="heroBtnStats">To'liq statistika</span>
+            </a>
+            <a href="#jarimalar" class="px-6 py-3.5 bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-semibold rounded-xl border border-gray-300 dark:border-gray-700 transition-all flex items-center gap-2 shadow-sm">
+              <i class="fa-solid fa-scale-balanced text-amber-500"></i> <span data-i18n="heroBtnFines">Jarimalar jadvali</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- 4 Hero Dynamic Statistics Counter Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-14 sm:mt-16">
+          
+          <!-- Annual Accidents -->
+          <div class="bg-white/90 dark:bg-gray-900/90 border border-gray-200 dark:border-gray-800 hover:border-amber-500/40 rounded-2xl p-6 shadow-xl backdrop-blur-sm transition-all transform hover:-translate-y-1">
+            <div class="flex items-center justify-between text-gray-500 dark:text-gray-400 mb-2">
+              <span class="text-xs font-semibold uppercase tracking-wider" data-i18n="cardAccidentsLabel">Yillik YTH lar</span>
+              <span class="text-xs bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 px-2 py-0.5 rounded font-mono">2023-2024</span>
+            </div>
+            <div class="text-4xl font-extrabold text-gray-900 dark:text-white mb-2 flex items-baseline gap-1">
+              <span class="counter" data-target="9839">0</span>
+              <span class="text-xs text-amber-600 dark:text-amber-400 font-normal" data-i18n="unitCases">ta hodisa</span>
+            </div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1.5">
+              <i class="fa-solid fa-building-shield text-amber-500"></i> <span data-i18n="sourceYhx">Manba: IIV YHXX</span>
+            </div>
+          </div>
+
+          <!-- Fatalities -->
+          <div class="bg-white/90 dark:bg-gray-900/90 border border-red-200 dark:border-red-900/30 hover:border-red-500/50 rounded-2xl p-6 shadow-xl backdrop-blur-sm transition-all transform hover:-translate-y-1">
+            <div class="flex items-center justify-between text-gray-500 dark:text-gray-400 mb-2">
+              <span class="text-xs font-semibold uppercase tracking-wider text-red-500" data-i18n="cardFatalitiesLabel">Halok bo'lganlar</span>
+              <span class="text-xs bg-red-100 dark:bg-red-950/60 text-red-600 dark:text-red-300 px-2 py-0.5 rounded" data-i18n="cardTragedy">Achinarsli yo'qotish</span>
+            </div>
+            <div class="text-4xl font-extrabold text-red-500 mb-2 flex items-baseline gap-1">
+              <span class="counter" data-target="2282">0</span>
+              <span class="text-xs text-gray-500 dark:text-gray-400 font-normal" data-i18n="unitPersons">nafar inson</span>
+            </div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1.5">
+              <i class="fa-solid fa-circle-exclamation text-red-500"></i> <span data-i18n="oneYearLoss">Bir yillik mudhish yo'qotish</span>
+            </div>
+          </div>
+
+          <!-- Injured -->
+          <div class="bg-white/90 dark:bg-gray-900/90 border border-gray-200 dark:border-gray-800 hover:border-amber-500/40 rounded-2xl p-6 shadow-xl backdrop-blur-sm transition-all transform hover:-translate-y-1">
+            <div class="flex items-center justify-between text-gray-500 dark:text-gray-400 mb-2">
+              <span class="text-xs font-semibold uppercase tracking-wider" data-i18n="cardInjuredLabel">Jarohatlanganlar</span>
+              <span class="text-xs bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 px-2 py-0.5 rounded" data-i18n="cardMedical">Tibbiy yordam</span>
+            </div>
+            <div class="text-4xl font-extrabold text-amber-500 mb-2 flex items-baseline gap-1">
+              <span class="counter" data-target="9209">0</span>
+              <span class="text-xs text-gray-500 dark:text-gray-400 font-normal" data-i18n="unitPersons">nafar inson</span>
+            </div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1.5">
+              <i class="fa-solid fa-kit-medical text-amber-500"></i> <span data-i18n="cardInjuredDesc">Sog'lig'iga zarar yetganlar</span>
+            </div>
+          </div>
+
+          <!-- Active Radars & Cameras -->
+          <div class="bg-white/90 dark:bg-gray-900/90 border border-gray-200 dark:border-gray-800 hover:border-emerald-500/40 rounded-2xl p-6 shadow-xl backdrop-blur-sm transition-all transform hover:-translate-y-1">
+            <div class="flex items-center justify-between text-gray-500 dark:text-gray-400 mb-2">
+              <span class="text-xs font-semibold uppercase tracking-wider" data-i18n="cardRadarsLabel">Radarlar & Kameralar</span>
+              <span class="text-xs bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-300 px-2 py-0.5 rounded" data-i18n="cardActive">Faol fiksatsiya</span>
+            </div>
+            <div class="text-4xl font-extrabold text-emerald-500 mb-2 flex items-baseline gap-1">
+              <span class="counter" data-target="2740">0</span>
+              <span class="text-xs text-gray-500 dark:text-gray-400 font-normal" data-i18n="unitMoreThan">dan ortiq</span>
+            </div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1.5">
+              <i class="fa-solid fa-video text-emerald-500"></i> <span data-i18n="cardRadarsDesc">Statsionar va onlayn fiksatsiya</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Calculated Averages Banner -->
+        <div class="mt-8 bg-amber-50 dark:bg-gradient-to-r dark:from-amber-500/10 dark:via-red-500/10 dark:to-amber-500/10 border border-amber-300 dark:border-amber-500/30 rounded-2xl p-4 sm:p-5 flex flex-wrap items-center justify-around gap-4 text-center shadow-sm">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold">
+              <i class="fa-solid fa-calendar-day"></i>
+            </div>
+            <div class="text-left">
+              <div class="text-xs text-gray-500 dark:text-gray-400" data-i18n="avgDailyLabel">Kunlik o'rtacha YTH</div>
+              <div class="text-base sm:text-lg font-bold text-gray-900 dark:text-white" data-i18n="avgDailyVal">~ 27 ta hodisa / kuniga</div>
+            </div>
+          </div>
+
+          <div class="h-8 w-px bg-gray-300 dark:bg-gray-800 hidden sm:block"></div>
+
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-red-500/20 text-red-500 flex items-center justify-center font-bold">
+              <i class="fa-solid fa-clock"></i>
+            </div>
+            <div class="text-left">
+              <div class="text-xs text-gray-500 dark:text-gray-400" data-i18n="avgHourlyLabel">Soatlik chastota</div>
+              <div class="text-base sm:text-lg font-bold text-gray-900 dark:text-white" data-i18n="avgHourlyVal">Har ~53 daqiqada 1 ta YTH</div>
+            </div>
+          </div>
+
+          <div class="h-8 w-px bg-gray-300 dark:bg-gray-800 hidden sm:block"></div>
+
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold">
+              <i class="fa-solid fa-users"></i>
+            </div>
+            <div class="text-left">
+              <div class="text-xs text-gray-500 dark:text-gray-400" data-i18n="avgPopRateLabel">Har 100 ming aholiga o'lim</div>
+              <div class="text-base sm:text-lg font-bold text-gray-900 dark:text-white" data-i18n="avgPopRateVal">6.4 nafar (MDH o'rtachasi: 7.8)</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="statistika" class="py-16 sm:py-20 bg-gray-50 dark:bg-[#0E131F] border-b border-gray-200 dark:border-gray-800 transition-colors">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <span class="text-amber-600 dark:text-amber-500 font-bold uppercase tracking-wider text-xs" data-i18n="statsSubtitle">Chuqurlashtirilgan tahlil</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white mt-1" data-i18n="statsTitle">Yo'l-Transport Hodisalari Dinamikasi</h2>
+          <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base mt-2" data-i18n="statsDesc">O'zbekistonda sodir bo'layotgan avariyalarning 5 yillik dinamikasi, MDH va jahon davlatlari bilan taqqosi.</p>
+        </div>
+
+        <!-- 5-Year Dynamics Chart & International Ranking -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+          
+          <!-- Dynamic Line Chart -->
+          <div class="lg:col-span-8 bg-white dark:bg-gray-900/90 border border-gray-200 dark:border-gray-800 rounded-2xl p-6 shadow-xl">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-6">
+              <div>
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                  <i class="fa-solid fa-chart-area text-amber-500"></i> <span data-i18n="chartTitle">Oxirgi 5 yillik dinamika (2019–2024)</span>
+                </h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400" data-i18n="chartSubtitle">Hodisalar soni va halok bo'lganlar ko'rsatkichi</p>
+              </div>
+              <div class="text-xs bg-gray-100 dark:bg-gray-800 px-3 py-1.5 rounded-lg text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-700">
+                <span data-i18n="chartBadge">Statistika agentligi ma'lumotlari</span>
+              </div>
+            </div>
+            <div class="relative h-72 sm:h-80 w-full">
+              <canvas id="trendChart"></canvas>
+            </div>
+            <div class="mt-4 text-right text-[11px] text-gray-400 dark:text-gray-500" data-i18n="chartSource">
+              * Manba: O'zR IIV Jamoat xavfsizligi departamenti va Davlat statistika agentligi
+            </div>
+          </div>
+
+          <!-- World & CIS Comparison Bars -->
+          <div class="lg:col-span-4 bg-white dark:bg-gray-900/90 border border-gray-200 dark:border-gray-800 rounded-2xl p-6 shadow-xl flex flex-col justify-between">
+            <div>
+              <h3 class="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2 mb-1">
+                <i class="fa-solid fa-globe text-amber-500"></i> <span data-i18n="rankingTitle">Xalqaro Taqqoslash</span>
+              </h3>
+              <p class="text-xs text-gray-500 dark:text-gray-400 mb-6" data-i18n="rankingDesc">Har 100,000 aholiga to'g'ri keladigan yo'l halokati ko'rsatkichi (JSST / IIV)</p>
+              
+              <div class="space-y-4" id="internationalStats">
+                <!-- Javascript will inject bilingual bars -->
+              </div>
+            </div>
+
+            <div class="mt-6 p-4 rounded-xl bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 text-xs text-amber-900 dark:text-amber-300 leading-relaxed" data-i18n="rankingNote">
+              <i class="fa-solid fa-circle-info mr-1"></i>
+              O'zbekiston ko'rsatkichi (6.4) MDH o'rtacha darajasidan pastroq, biroq Yevropa davlatlaridagi Vision Zero (2.0 - 3.5) standartiga erishish uchun choralar kuchaytirilmoqda.
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Causes & Transport Split & Dangerous times -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          
+          <!-- Causes breakdown -->
+          <div class="bg-white dark:bg-gray-900/90 border border-gray-200 dark:border-gray-800 rounded-2xl p-6 shadow-md">
+            <h4 class="text-base font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+              <i class="fa-solid fa-triangle-exclamation text-amber-500"></i> <span data-i18n="causesTitle">Avariyalarning Asosiy Sabablari</span>
+            </h4>
+            <div class="space-y-4" id="causesList">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+
+          <!-- Transport Types Chart -->
+          <div class="bg-white dark:bg-gray-900/90 border border-gray-200 dark:border-gray-800 rounded-2xl p-6 shadow-md flex flex-col items-center">
+            <div class="w-full text-left mb-4">
+              <h4 class="text-base font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                <i class="fa-solid fa-car-crash text-amber-500"></i> <span data-i18n="transportTitle">Transport Turlari Ulushi</span>
+              </h4>
+              <p class="text-xs text-gray-500 dark:text-gray-400" data-i18n="transportSubtitle">Hodisalarda ishtirok etgan vositalar taqsimoti</p>
+            </div>
+            <div class="relative w-56 h-56 my-auto">
+              <canvas id="vehicleChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Dangerous Time Window -->
+          <div class="bg-white dark:bg-gray-900/90 border border-gray-200 dark:border-gray-800 rounded-2xl p-6 shadow-md">
+            <h4 class="text-base font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
+              <i class="fa-solid fa-clock-rotate-left text-red-500"></i> <span data-i18n="dangerTimeTitle">Eng Xavfli Vaqt Oralig'i</span>
+            </h4>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mb-4" data-i18n="dangerTimeSubtitle">Statistika bo'yicha hodisalar cho'qqisi</p>
+
+            <div class="space-y-3">
+              <div class="p-3 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900/40 rounded-xl">
+                <div class="flex justify-between items-center mb-1">
+                  <span class="text-xs font-semibold text-red-600 dark:text-red-400">18:00 — 22:00</span>
+                  <span class="text-xs font-bold text-gray-900 dark:text-white" data-i18n="dangerTimePeakVal">Hodisalarning 38% qismi</span>
+                </div>
+                <div class="w-full bg-gray-200 dark:bg-gray-800 h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-red-500 h-full rounded-full" style="width: 38%"></div>
+                </div>
+                <span class="text-[11px] text-gray-600 dark:text-gray-400 mt-1 block" data-i18n="dangerTimePeakDesc">Tig'iz vaqt, charchoq va yorug'likning kamayishi sabab.</span>
+              </div>
+
+              <div class="p-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/40 rounded-xl">
+                <div class="flex justify-between items-center mb-1">
+                  <span class="text-xs font-semibold text-amber-700 dark:text-amber-400" data-i18n="dangerDaysTitle">Juma va Shanba</span>
+                  <span class="text-xs font-bold text-gray-900 dark:text-white" data-i18n="dangerDaysVal">Eng xavfli kunlar</span>
+                </div>
+                <p class="text-[11px] text-gray-600 dark:text-gray-400" data-i18n="dangerDaysDesc">Hafta oxiri viloyatlararo qatnovlar va dam olish kunlaridagi harakat intensivligi.</p>
+              </div>
+
+              <div class="p-3 bg-gray-100 dark:bg-gray-800/60 border border-gray-300 dark:border-gray-700/50 rounded-xl">
+                <div class="flex justify-between items-center mb-1">
+                  <span class="text-xs font-semibold text-gray-700 dark:text-gray-300" data-i18n="pedestrianStatsTitle">Piyodalar ishtirokidagi YTH</span>
+                  <span class="text-xs font-bold text-amber-600 dark:text-amber-400">~ 46%</span>
+                </div>
+                <p class="text-[11px] text-gray-600 dark:text-gray-400" data-i18n="pedestrianStatsDesc">Hodisalarning deyarli yarmi piyodalar o'tish joylariga to'g'ri keladi.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Regional Table Section with Search and Interactive Filter -->
+        <div class="bg-white dark:bg-gray-900/90 border border-gray-200 dark:border-gray-800 rounded-2xl p-6 shadow-xl">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+            <div>
+              <h3 class="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                <i class="fa-solid fa-map-location-dot text-amber-500"></i> <span data-i18n="regionTableTitle">Viloyatlar Kesimida YTH va Kameralar Taqsimoti</span>
+              </h3>
+              <p class="text-xs text-gray-500 dark:text-gray-400" data-i18n="regionTableSubtitle">14 ta ma'muriy hudud bo'yicha yillik statistik sarhisob</p>
+            </div>
+            <div class="w-full md:w-72 relative">
+              <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-gray-400 text-sm"></i>
+              <input type="text" id="regionSearchInput" placeholder="Viloyat nomini kiriting..." class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-sm text-gray-900 dark:text-white rounded-xl pl-9 pr-4 py-2 focus:outline-none focus:border-amber-500">
+            </div>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm text-gray-700 dark:text-gray-300">
+              <thead class="text-xs uppercase bg-gray-100 dark:bg-gray-800/80 text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700">
+                <tr>
+                  <th scope="col" class="px-4 py-3" data-i18n="colRegion">Hudud / Viloyat</th>
+                  <th scope="col" class="px-4 py-3 text-center" data-i18n="colAccidents">Yillik YTH lar</th>
+                  <th scope="col" class="px-4 py-3 text-center" data-i18n="colFatalities">Halok bo'lganlar</th>
+                  <th scope="col" class="px-4 py-3 text-center" data-i18n="colInjured">Jarohatlanganlar</th>
+                  <th scope="col" class="px-4 py-3 text-center" data-i18n="colRadars">Radarlar & Kameralar</th>
+                  <th scope="col" class="px-4 py-3 text-center" data-i18n="colRisk">Xavf darajasi</th>
+                </tr>
+              </thead>
+              <tbody id="regionsTableBody" class="divide-y divide-gray-200 dark:divide-gray-800 font-medium">
+                <!-- Injected via JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="radarlar" class="py-16 sm:py-20 asphalt-pattern border-b border-gray-200 dark:border-gray-800 transition-colors">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+          <div>
+            <span class="text-amber-600 dark:text-amber-500 font-bold uppercase tracking-wider text-xs" data-i18n="radarsSubtitle">Nazorat va fiksatsiya</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white mt-1" data-i18n="radarsTitle">Radarlar va Kuzatuv Kameralari</h2>
+            <p class="text-gray-600 dark:text-gray-400 text-sm mt-2 max-w-2xl" data-i18n="radarsDesc">
+              Avtomatlashtirilgan fotoradar majmualari, «Xavfsiz shahar» kameralari hamda tadbirkorlar tomonidan o'rnatilgan statsionar kameralar soni.
+            </p>
+          </div>
+          <div class="flex items-center gap-3">
+            <select id="radarFilterRegion" class="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-sm text-gray-900 dark:text-white rounded-xl px-4 py-2.5 focus:border-amber-500 focus:outline-none shadow-sm">
+              <option value="all" data-i18n="optAllRegions">Barcha viloyatlar</option>
+              <!-- Populated by JS -->
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="radarCardsContainer">
+          <!-- Populated by JS -->
+        </div>
+
+        <div class="mt-8 p-5 rounded-2xl bg-white dark:bg-gray-900/90 border border-gray-200 dark:border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-md">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center text-xl shrink-0">
+              <i class="fa-solid fa-camera"></i>
+            </div>
+            <div>
+              <h5 class="text-sm font-bold text-gray-900 dark:text-white" data-i18n="radarMapBannerTitle">YHXX Onlayn Radar Xaritasi</h5>
+              <p class="text-xs text-gray-500 dark:text-gray-400" data-i18n="radarMapBannerDesc">Barcha tasdiqlangan va sertifikatlangan statsionar radarlar ro'yxati YHXX rasmiy portalida e'lon qilib boriladi.</p>
+            </div>
+          </div>
+          <a href="https://yhxx.uz" target="_blank" rel="noopener noreferrer" class="px-4 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-amber-600 dark:text-amber-400 text-xs font-semibold rounded-lg border border-gray-300 dark:border-gray-700 whitespace-nowrap transition-colors">
+            <span data-i18n="btnOpenYhxx">YHXX.UZ ga o'tish</span> <i class="fa-solid fa-arrow-up-right-from-square ml-1"></i>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="taqiqlar" class="py-16 sm:py-20 bg-gray-50 dark:bg-[#0E131F] border-b border-gray-200 dark:border-gray-800 transition-colors">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-14">
+          <span class="text-amber-600 dark:text-amber-500 font-bold uppercase tracking-wider text-xs" data-i18n="zonesSubtitle">Qoidalar va Cheklovlar</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white mt-1" data-i18n="zonesTitle">Qayerlarda Mashinada Yurish Taqiqlanadi?</h2>
+          <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base mt-2" data-i18n="zonesDesc">
+            Piyodalar xavfsizligini ta'minlash va shahar muhitini saqlash maqsadida harakatlanish qat'iyan man etilgan zonalar hamda yo'l belgilari.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="signsContainer">
+          <!-- Sign cards rendered via JS -->
+        </div>
+
+        <!-- Special restrictions block: Heavy trucks & city center -->
+        <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="p-6 rounded-2xl bg-white dark:bg-gray-900/90 border border-gray-200 dark:border-gray-800 shadow-md">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="w-9 h-9 rounded-lg bg-red-500/20 text-red-500 flex items-center justify-center font-bold">
+                <i class="fa-solid fa-truck-moving"></i>
+              </span>
+              <h4 class="text-base font-bold text-gray-900 dark:text-white" data-i18n="truckRestrTitle">Yuk Mashinalari Cheklovi</h4>
+            </div>
+            <p class="text-xs text-gray-600 dark:text-gray-300 leading-relaxed" data-i18n="truckRestrDesc">
+              Toshkent shahri va viloyat markazlarida ruxsat etilgan to'la vazni 5 tonnadan ortiq yuk mashinalarining tig'iz soatlarda (07:00-10:00 va 17:00-20:00) markaziy ko'chalarga kirishi taqiqlanadi. (MJtK 128-modda).
+            </p>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-white dark:bg-gray-900/90 border border-gray-200 dark:border-gray-800 shadow-md">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="w-9 h-9 rounded-lg bg-emerald-500/20 text-emerald-500 flex items-center justify-center font-bold">
+                <i class="fa-solid fa-leaf"></i>
+              </span>
+              <h4 class="text-base font-bold text-gray-900 dark:text-white" data-i18n="ecoRestrTitle">Ekologik Zonalar va «Toza Havo»</h4>
+            </div>
+            <p class="text-xs text-gray-600 dark:text-gray-300 leading-relaxed" data-i18n="ecoRestrDesc">
+              Shahar markazlarida ekologik stikerlar tizimi bosqichma-bosqich joriy etilmoqda. Chiqindi me'yoridan ortiq bo'lgan (qizil toifa) mashinalar uchun markaziy zonalarda harakatlanish cheklanadi.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="jarimalar" class="py-16 sm:py-20 asphalt-pattern border-b border-gray-200 dark:border-gray-800 transition-colors">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-10">
+          <span class="text-amber-600 dark:text-amber-500 font-bold uppercase tracking-wider text-xs" data-i18n="finesSubtitle">O'zbekiston Respublikasi MJtK</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white mt-1" data-i18n="finesTitle">Qoidabuzarliklar va Jarimalar Jadvali</h2>
+          <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base mt-2">
+            <span data-i18n="finesBhmIntro">Amaldagi BHM qiymati:</span> <span class="font-bold text-amber-600 dark:text-amber-400" id="currentBhmDisplay">375,000 so'm</span>. <span data-i18n="finesBhmIntro2">Barcha jarimalar avtomatik milliy valyutada hisoblanadi.</span>
+          </p>
+        </div>
+
+        <!-- Controls: search, category filter, sort -->
+        <div class="bg-white dark:bg-gray-900/90 border border-gray-200 dark:border-gray-800 rounded-2xl p-4 sm:p-6 mb-6 shadow-xl">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label for="finesSearch" class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase mb-1" data-i18n="lblSearch">Qidirish</label>
+              <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-3.5 text-gray-400 text-sm"></i>
+                <input type="text" id="finesSearch" placeholder="Tezlik, kamar, mastlik..." class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-sm text-gray-900 dark:text-white rounded-xl pl-9 pr-4 py-2.5 focus:outline-none focus:border-amber-500">
+              </div>
+            </div>
+
+            <div>
+              <label for="finesCategory" class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase mb-1" data-i18n="lblCategory">Toifa bo'yicha</label>
+              <select id="finesCategory" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-sm text-gray-900 dark:text-white rounded-xl px-3 py-2.5 focus:outline-none focus:border-amber-500">
+                <option value="all" data-i18n="catAll">Barcha qoidabuzarliklar</option>
+                <option value="tezlik" data-i18n="catSpeed">Tezlik bilan bog'liq</option>
+                <option value="xavfli" data-i18n="catDangerous">O'ta xavfli (mastlik, avariya)</option>
+                <option value="hujjat" data-i18n="catDoc">Hujjat va qoidalar (kamar, telefon)</option>
+                <option value="texnik" data-i18n="catTech">Texnik holat (tonirovka)</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="finesSort" class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase mb-1" data-i18n="lblSort">Saralash</label>
+              <select id="finesSort" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-sm text-gray-900 dark:text-white rounded-xl px-3 py-2.5 focus:outline-none focus:border-amber-500">
+                <option value="default" data-i18n="sortDefault">Odatiy tartib</option>
+                <option value="fine-asc" data-i18n="sortFineAsc">Jarima: Avval arzonroq</option>
+                <option value="fine-desc" data-i18n="sortFineDesc">Jarima: Avval qimmatroq</option>
+                <option value="points-desc" data-i18n="sortPointsDesc">Jarima ballari: Ko'pdan kamga</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fines Table -->
+        <div class="bg-white dark:bg-gray-900/90 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-xl overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm text-gray-700 dark:text-gray-300">
+              <thead class="text-xs uppercase bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700">
+                <tr>
+                  <th scope="col" class="px-5 py-4" data-i18n="colViolation">Qoidabuzarlik Turi</th>
+                  <th scope="col" class="px-5 py-4" data-i18n="colArticle">MJtK Moddasi</th>
+                  <th scope="col" class="px-5 py-4 text-center" data-i18n="colBhm">BHM Miqdori</th>
+                  <th scope="col" class="px-5 py-4 text-right" data-i18n="colSum">Summasi (So'mda)</th>
+                  <th scope="col" class="px-5 py-4 text-center" data-i18n="colPoints">Jarima Balli</th>
+                  <th scope="col" class="px-5 py-4" data-i18n="colConsequences">Qo'shimcha Chora</th>
+                </tr>
+              </thead>
+              <tbody id="finesTableBody" class="divide-y divide-gray-200 dark:divide-gray-800">
+                <!-- Rows injected via JavaScript -->
+              </tbody>
+            </table>
+          </div>
+          <div class="p-4 bg-gray-50 dark:bg-gray-800/40 border-t border-gray-200 dark:border-gray-800 text-xs text-gray-500 dark:text-gray-400 flex flex-wrap items-center justify-between gap-2">
+            <span><i class="fa-solid fa-clock mr-1 text-amber-500"></i> <span data-i18n="finesDiscountNote">15 kun ichida to'lansa 50%, 30 kun ichida to'lansa 30% chegirma mavjud.</span></span>
+            <span class="text-gray-400 dark:text-gray-500">Manba: Lex.uz (MJtK)</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="ball-kalkulyator" class="py-16 sm:py-20 bg-gray-50 dark:bg-[#0E131F] border-b border-gray-200 dark:border-gray-800 transition-colors">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-14">
+          <span class="text-amber-600 dark:text-amber-500 font-bold uppercase tracking-wider text-xs" data-i18n="pointsSubtitle">Yangi mexanizm</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white mt-1" data-i18n="pointsTitle">Jarima Ballari Tizimi va Hisoblagich</h2>
+          <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base mt-2" data-i18n="pointsDesc">
+            Qoidabuzarlik uchun jarimadan tashqari ballar hisoblanadi. 12 ball to'plansa — haydovchilik huquqidan mahrum etiladi!
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+          
+          <!-- Guide on how the points system works -->
+          <div class="lg:col-span-5 space-y-4">
+            <div class="p-6 rounded-2xl bg-white dark:bg-gray-900/90 border border-gray-200 dark:border-gray-800 shadow-md">
+              <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                <i class="fa-solid fa-scale-unbalanced text-amber-500"></i> <span data-i18n="howPointsWorkTitle">Ballar Qanday Hisoblanadi?</span>
+              </h4>
+              <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed mb-4" data-i18n="howPointsWorkDesc">
+                Har bir qoidabuzarlik uchun og'irlik darajasiga ko'ra 0.5 balldan 3 ballgacha belgilanadi. Yil davomida to'plangan ballar jamlanadi.
+              </p>
+              <ul class="space-y-2 text-xs text-gray-600 dark:text-gray-300">
+                <li class="flex items-start gap-2">
+                  <i class="fa-solid fa-triangle-exclamation text-amber-500 mt-0.5"></i>
+                  <span data-i18n="pointRule1"><strong>12 ballga yetsa:</strong> Sud qarori bilan transport boshqarish huquqidan mahrum qilinadi (6 oydan 3 yilgacha).</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <i class="fa-solid fa-rotate-left text-emerald-500 mt-0.5"></i>
+                  <span data-i18n="pointRule2"><strong>Ballarni tozalash:</strong> Oxirgi qoidabuzarlikdan keyin 1 yil mobaynida yangi jarima olinmasa, ballar avtomatik nolga tenglashtiriladi.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <i class="fa-solid fa-mobile-screen-button text-blue-500 mt-0.5"></i>
+                  <span data-i18n="pointRule3"><strong>Qanday tekshiriladi:</strong> Yagona interaktiv portal (my.gov.uz) yoki YHXX mobil ilovasida guvohnoma seriyasini kiritib tekshiriladi.</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Risk Gauge Card -->
+            <div class="p-6 rounded-2xl bg-white dark:bg-gray-900/90 border border-gray-200 dark:border-gray-800 text-center shadow-md">
+              <span class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider block mb-1" data-i18n="gaugeSub">Tanlangan qoidabuzarliklar bo'yicha</span>
+              <h4 class="text-sm font-semibold text-gray-800 dark:text-gray-200 mb-4" data-i18n="gaugeTitle">Sizning Hozirgi Xavf Ko'rsatkichingiz</h4>
+
+              <div class="relative w-40 h-24 mx-auto flex flex-col justify-end items-center">
+                <div class="text-5xl font-black text-gray-900 dark:text-white" id="calcTotalPoints">0</div>
+                <div class="text-xs text-gray-500 dark:text-gray-400" data-i18n="outOf12">Jami ball / 12 ball</div>
+              </div>
+
+              <!-- Gauge Progress Bar -->
+              <div class="w-full bg-gray-200 dark:bg-gray-800 h-3.5 rounded-full overflow-hidden mt-4 p-0.5 border border-gray-300 dark:border-gray-700">
+                <div id="gaugeProgressBar" class="h-full bg-emerald-500 rounded-full transition-all duration-500" style="width: 0%"></div>
+              </div>
+
+              <div id="gaugeStatusText" class="mt-3 text-xs font-bold text-emerald-500 dark:text-emerald-400">
+                Xavfsiz holat (Guvohnomaga xavf yo'q)
+              </div>
+
+              <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-800 flex justify-between items-center text-xs">
+                <span class="text-gray-500 dark:text-gray-400" data-i18n="calcEstFine">Taxminiy jarima:</span>
+                <span class="text-base font-bold text-amber-600 dark:text-amber-400" id="calcTotalFine">0 so'm</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Violations Selector Checklist -->
+          <div class="lg:col-span-7 bg-white dark:bg-gray-900/90 border border-gray-200 dark:border-gray-800 rounded-2xl p-6 shadow-xl">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h4 class="text-lg font-bold text-gray-900 dark:text-white" data-i18n="calcSelectorTitle">Interaktiv Ball Hisoblagich</h4>
+                <p class="text-xs text-gray-500 dark:text-gray-400" data-i18n="calcSelectorDesc">Qoidabuzarliklarni belgilab, to'planadigan ball va summani hisoblang</p>
+              </div>
+              <button id="resetCalculatorBtn" class="text-xs text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 px-3 py-1.5 rounded-lg border border-amber-500/30 bg-amber-500/10 transition-colors">
+                <i class="fa-solid fa-arrow-rotate-right mr-1"></i> <span data-i18n="btnReset">Tozalash</span>
+              </button>
+            </div>
+
+            <div class="space-y-3 max-h-[460px] overflow-y-auto pr-1" id="calculatorItemsContainer">
+              <!-- Checkbox items injected dynamically via JavaScript -->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <section id="yomon-yollar" class="py-16 sm:py-20 asphalt-pattern border-b border-gray-200 dark:border-gray-800 transition-colors">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-14">
+          <span class="text-amber-600 dark:text-amber-500 font-bold uppercase tracking-wider text-xs" data-i18n="repSubtitle">Fuqarolik tashabbusi</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white mt-1" data-i18n="repTitle">Yomon Yo'llar va Murojaat Qilish</h2>
+          <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base mt-2" data-i18n="repDesc">
+            Chuqurlar, yoritilmagan ko'chalar va nosoz belgilar yuzlab avariyalarga sabab bo'ladi. Muammoni birgalikda bartaraf etaylik!
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          
+          <!-- Left: Official channels & driver steps -->
+          <div class="lg:col-span-5 space-y-6">
+            <div class="bg-white dark:bg-gray-900/90 border border-gray-200 dark:border-gray-800 rounded-2xl p-6 shadow-md">
+              <h4 class="text-base font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                <i class="fa-solid fa-headset text-amber-500"></i> <span data-i18n="officialChTitle">Rasmiy Shikoyat Qilish Kanallari</span>
+              </h4>
+              <p class="text-xs text-gray-600 dark:text-gray-300 mb-4" data-i18n="officialChDesc">
+                Yo'l nosozligi tufayli mashinangizga ziyon yetsa yoki xavfli chuqurlarga duch kelsangiz, quyidagi portallarga murojaat qiling:
+              </p>
+              
+              <div class="space-y-3 text-xs">
+                <a href="https://meningyolim.uz" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-xl bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-200 transition-colors">
+                  <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-road text-amber-500 text-lg"></i>
+                    <div>
+                      <div class="font-bold">«Mening Yo'lim» portali</div>
+                      <div class="text-[11px] text-gray-500 dark:text-gray-400">Avtomobil yo'llari qo'mitasi</div>
+                    </div>
+                  </div>
+                  <i class="fa-solid fa-external-link-alt text-gray-400"></i>
+                </a>
+
+                <a href="https://my.gov.uz" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-xl bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-200 transition-colors">
+                  <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-landmark text-blue-500 text-lg"></i>
+                    <div>
+                      <div class="font-bold">Yagona portal (my.gov.uz)</div>
+                      <div class="text-[11px] text-gray-500 dark:text-gray-400">Hokimiyat va mas'ul organlarga</div>
+                    </div>
+                  </div>
+                  <i class="fa-solid fa-external-link-alt text-gray-400"></i>
+                </a>
+
+                <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-200">
+                  <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-phone-volume text-red-500 text-lg"></i>
+                    <div>
+                      <div class="font-bold">Tezkor Yordam va YHX</div>
+                      <div class="text-[11px] text-gray-500 dark:text-gray-400">Favqulodda xavfli vaziyatlarda</div>
+                    </div>
+                  </div>
+                  <span class="font-bold text-amber-600 dark:text-amber-400 text-sm">102 / 1102</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-white dark:bg-gray-900/90 border border-gray-200 dark:border-gray-800 rounded-2xl p-6 shadow-md">
+              <h4 class="text-base font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
+                <i class="fa-solid fa-shield-cat text-amber-500"></i> <span data-i18n="driverActionTitle">Haydovchi Nima Qilishi Kerak?</span>
+              </h4>
+              <ul class="text-xs text-gray-600 dark:text-gray-300 space-y-2 list-disc list-inside">
+                <li data-i18n="driverAction1">Chuqurni ko'rganda keskin tormoz bermang va boshqa qatorga qaltis burilmang;</li>
+                <li data-i18n="driverAction2">Zarar yetganda voqea joyidan ketmasdan, YPX xodimlarini chaqirib dalolatnoma tuzdiring;</li>
+                <li data-i18n="driverAction3">Yo'l nosozligini fotosurat va videoga muhrlang (sug'urta va tovon puli uchun shart).</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Right: Interactive Citizen Road Form -->
+          <div class="lg:col-span-7 bg-white dark:bg-gray-900/90 border border-gray-200 dark:border-gray-800 rounded-2xl p-6 sm:p-8 shadow-xl">
+            <h4 class="text-xl font-bold text-gray-900 dark:text-white mb-2" data-i18n="formTitle">Yomon Yo'l Haqida Xabar Qoldirish</h4>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mb-6" data-i18n="formDesc">
+              Murojaatingiz elektron portal reyestriga kiritiladi va xavfli nuqta sifatida xaritada belgilanadi.
+            </p>
+
+            <form id="roadReportForm" class="space-y-4" onsubmit="return false;">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1" data-i18n="lblFormName">Ismingiz (ixtiyoriy)</label>
+                  <input type="text" id="reporterName" placeholder="Anvar" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-sm text-gray-900 dark:text-white rounded-xl px-4 py-2.5 focus:outline-none focus:border-amber-500">
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1" data-i18n="lblFormPhone">Telefon raqam (ixtiyoriy)</label>
+                  <input type="tel" id="reporterPhone" placeholder="+998 90 123 45 67" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-sm text-gray-900 dark:text-white rounded-xl px-4 py-2.5 focus:outline-none focus:border-amber-500">
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1" data-i18n="lblFormType">Muammo turi *</label>
+                <select id="issueType" required class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-sm text-gray-900 dark:text-white rounded-xl px-4 py-2.5 focus:outline-none focus:border-amber-500">
+                  <option value="" data-i18n="optSelectIssue">Muammoni tanlang</option>
+                  <option value="chuqur" data-i18n="optPothole">Katta chuqur yoki yoriqlar</option>
+                  <option value="yoritish" data-i18n="optLighting">Tungi yoritish chiroqlari ishlamayapti</option>
+                  <option value="belgi" data-i18n="optSignBroken">Yo'l belgisi yoki svetofor nosoz</option>
+                  <option value="chiziq" data-i18n="optLineFaded">Yo'l chiziqlari o'chib ketgan</option>
+                  <option value="lyuk" data-i18n="optManhole">Ochiq qolgan lyuk</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1" data-i18n="lblFormLoc">Aniq joylashuv yoki manzil *</label>
+                <div class="flex gap-2">
+                  <input type="text" id="issueLocation" required placeholder="Toshkent sh., Chilonzor, chorraha" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-sm text-gray-900 dark:text-white rounded-xl px-4 py-2.5 focus:outline-none focus:border-amber-500">
+                  <button type="button" id="geoBtn" class="px-3 py-2.5 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-700 text-amber-600 dark:text-amber-400 rounded-xl text-xs font-semibold shrink-0" title="Mening joylashuvim">
+                    <i class="fa-solid fa-location-crosshairs"></i> Geo
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1" data-i18n="lblFormDesc">Batafsil izoh *</label>
+                <textarea id="issueDesc" rows="3" required placeholder="Muammo tafsilotlari va xavf darajasi..." class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-sm text-gray-900 dark:text-white rounded-xl p-3 focus:outline-none focus:border-amber-500"></textarea>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1" data-i18n="lblFormPhoto">Surat biriktirish (makyet)</label>
+                <div class="border-2 border-dashed border-gray-300 dark:border-gray-700 hover:border-amber-500/50 rounded-xl p-4 text-center cursor-pointer bg-gray-50/50 dark:bg-gray-800/40 transition-colors" id="dropZone">
+                  <i class="fa-solid fa-cloud-arrow-up text-2xl text-gray-400 mb-1"></i>
+                  <span class="text-xs text-gray-500 dark:text-gray-400 block" id="fileStatus" data-i18n="dropzoneText">Fotosuratni tanlang yoki shu yerga tashlang</span>
+                  <input type="file" id="issueFile" class="hidden" accept="image/*">
+                </div>
+              </div>
+
+              <button type="submit" id="submitReportBtn" class="w-full py-3.5 bg-amber-500 hover:bg-amber-600 text-gray-950 font-bold rounded-xl transition-all shadow-lg shadow-amber-500/20 text-sm">
+                <i class="fa-solid fa-paper-plane mr-1"></i> <span data-i18n="btnSendReport">Murojaatni Yuborish</span>
+              </button>
+            </form>
+
+            <div id="reportSuccessAlert" class="hidden mt-4 p-4 rounded-xl bg-emerald-50 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-500/40 text-emerald-800 dark:text-emerald-300 text-xs flex items-center gap-3">
+              <i class="fa-solid fa-circle-check text-xl"></i>
+              <div>
+                <div class="font-bold" data-i18n="reportSuccessTitle">Murojaat muvaffaqiyatli qabul qilindi!</div>
+                <div data-i18n="reportSuccessDesc">Xabar monitoring tizimiga yuborildi. Faolligingiz uchun tashakkur!</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <section class="py-16 sm:py-20 bg-gray-50 dark:bg-[#0E131F] border-b border-gray-200 dark:border-gray-800 transition-colors">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-14">
+          <span class="text-amber-600 dark:text-amber-500 font-bold uppercase tracking-wider text-xs" data-i18n="tipsSubtitle">Hayotiy tavsiyalar</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white mt-1" data-i18n="tipsTitle">Xavfsiz Haydash Bo'yicha 8 Oltin Qoida</h2>
+          <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base mt-2" data-i18n="tipsDesc">Ushbu oddiy odatlarga amal qilish Siz va yaqinlaringiz hayotini asrab qoladi.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="safetyTipsContainer">
+          <!-- Tips injected via JS -->
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-white dark:bg-gray-950 text-gray-600 dark:text-gray-400 text-xs py-12 border-t border-gray-200 dark:border-gray-800 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
+        
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-2 mb-3">
+            <div class="w-8 h-8 rounded-lg bg-amber-500 flex items-center justify-center text-gray-950 font-black">
+              <i class="fa-solid fa-car"></i>
+            </div>
+            <span class="text-base font-extrabold text-gray-900 dark:text-white">YOL-HARAKATI.UZ</span>
+          </div>
+          <p class="text-gray-600 dark:text-gray-400 leading-relaxed max-w-md" data-i18n="footerDesc">
+            O'zbekistonda yo'l harakati xavfsizligi madaniyatini yuksaltirish, qoidabuzarliklarning oldini olish va ochiq ma'lumotlar bilan fuqarolarni xabardor qilish loyihasi.
+          </p>
+          <div class="mt-4 text-[11px] text-gray-400 dark:text-gray-500">
+            <span data-i18n="footerUpdated">Sayt ma'lumotlari yangilangan sana:</span> <strong class="text-gray-700 dark:text-gray-300">2024-yil sentyabr</strong>
+          </div>
+        </div>
+
+        <div>
+          <h5 class="text-gray-900 dark:text-white font-bold mb-3 uppercase tracking-wider text-xs" data-i18n="footerSources">Rasmiy Manbalar</h5>
+          <ul class="space-y-2">
+            <li><a href="https://lex.uz/docs/-97664" target="_blank" rel="noopener noreferrer" class="hover:text-amber-500 flex items-center gap-1.5"><i class="fa-solid fa-link text-[10px]"></i> O'zR MJtK (lex.uz)</a></li>
+            <li><a href="https://yhxx.uz" target="_blank" rel="noopener noreferrer" class="hover:text-amber-500 flex items-center gap-1.5"><i class="fa-solid fa-link text-[10px]"></i> IIV YHX Xizmati</a></li>
+            <li><a href="https://stat.uz" target="_blank" rel="noopener noreferrer" class="hover:text-amber-500 flex items-center gap-1.5"><i class="fa-solid fa-link text-[10px]"></i> Statistika Agentligi</a></li>
+            <li><a href="https://www.who.int" target="_blank" rel="noopener noreferrer" class="hover:text-amber-500 flex items-center gap-1.5"><i class="fa-solid fa-link text-[10px]"></i> Jahon sog'liqni saqlash tashkiloti</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h5 class="text-gray-900 dark:text-white font-bold mb-3 uppercase tracking-wider text-xs" data-i18n="footerLinks">Muhim Havolalar</h5>
+          <ul class="space-y-2">
+            <li><a href="https://my.gov.uz" target="_blank" rel="noopener noreferrer" class="hover:text-amber-500">my.gov.uz portali</a></li>
+            <li><a href="https://meningyolim.uz" target="_blank" rel="noopener noreferrer" class="hover:text-amber-500">Mening Yo'lim loyihasi</a></li>
+            <li><a href="#ball-kalkulyator" class="hover:text-amber-500" data-i18n="navPoints">Ball hisoblagich</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="border-t border-gray-200 dark:border-gray-800 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p class="text-gray-500 text-[11px] text-center sm:text-left leading-relaxed" data-i18n="footerDisclaimer">
+          <strong>Yuridik ogohlantirish:</strong> Mazkur portalda keltirilgan ma'lumotlar rasmiy ochiq manbalardan olingan bo'lib, tanishuv xarakteriga ega. U yuridik yoki advokatlik maslahati o'rnini bosmaydi.
+        </p>
+        <span class="text-gray-400 dark:text-gray-500 text-[11px] whitespace-nowrap">© 2024-2026 YOL-HARAKATI.UZ</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Notification Toast Container -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-32 transition-transform duration-300 bg-gray-900 text-white border border-gray-700 px-5 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 text-xs">
+    <i class="fa-solid fa-bell text-amber-400 text-base" id="toastIcon"></i>
+    <span id="toastMsg">Xabar</span>
+  </div>
+
+  <script>
+    /**
+     * BILINGUAL DICTIONARY (UZB / RUS)
+     */
+    const I18N = {
+      uz: {
+        navSubtitle: "Yo'l Xavfsizligi Portali",
+        navHome: "Bosh sahifa",
+        navStats: "Statistika",
+        navRadars: "Radarlar",
+        navZones: "Taqiqlar",
+        navFines: "Jarimalar",
+        navPoints: "Ball hisoblagich",
+        navReports: "Murojaat",
+        quickCalcBtn: "Kalkulyator",
+        heroBadge: "IIV YHX Xizmati Rasmiy Ma'lumotlari Asosida",
+        heroTitle1: "Yo'l Harakati Xavfsizligi —",
+        heroTitle2: "Har Bir Hayot Qadrli",
+        heroDesc: "Tezlik, e'tiborsizlik va qoidabuzarlik soniyalar ichida hayotni o'zgartirishi mumkin. O'zbekiston yo'llaridagi real vaziyat, jarima ballari tizimi va xavfsizlik tavsiyalari bilan tanishing.",
+        heroBtnStats: "To'liq statistika",
+        heroBtnFines: "Jarimalar jadvali",
+        cardAccidentsLabel: "Yillik YTH lar",
+        unitCases: "ta hodisa",
+        sourceYhx: "Manba: IIV YHXX",
+        cardFatalitiesLabel: "Halok bo'lganlar",
+        cardTragedy: "Achinarsli yo'qotish",
+        unitPersons: "nafar inson",
+        oneYearLoss: "Bir yillik mudhish yo'qotish",
+        cardInjuredLabel: "Jarohatlanganlar",
+        cardMedical: "Tibbiy yordam",
+        cardInjuredDesc: "Sog'lig'iga zarar yetganlar",
+        cardRadarsLabel: "Radarlar & Kameralar",
+        cardActive: "Faol fiksatsiya",
+        unitMoreThan: "dan ortiq",
+        cardRadarsDesc: "Statsionar va onlayn fiksatsiya",
+        avgDailyLabel: "Kunlik o'rtacha YTH",
+        avgDailyVal: "~ 27 ta hodisa / kuniga",
+        avgHourlyLabel: "Soatlik chastota",
+        avgHourlyVal: "Har ~53 daqiqada 1 ta YTH",
+        avgPopRateLabel: "Har 100 ming aholiga o'lim",
+        avgPopRateVal: "6.4 nafar (MDH o'rtachasi: 7.8)",
+        statsSubtitle: "Chuqurlashtirilgan tahlil",
+        statsTitle: "Yo'l-Transport Hodisalari Dinamikasi",
+        statsDesc: "O'zbekistonda sodir bo'layotgan avariyalarning 5 yillik dinamikasi, MDH va jahon davlatlari bilan taqqosi.",
+        chartTitle: "Oxirgi 5 yillik dinamika (2019–2024)",
+        chartSubtitle: "Hodisalar soni va halok bo'lganlar ko'rsatkichi",
+        chartBadge: "Statistika agentligi ma'lumotlari",
+        chartSource: "* Manba: O'zR IIV Jamoat xavfsizligi departamenti va Davlat statistika agentligi",
+        rankingTitle: "Xalqaro Taqqoslash",
+        rankingDesc: "Har 100,000 aholiga to'g'ri keladigan yo'l halokati ko'rsatkichi (JSST / IIV)",
+        rankingNote: "O'zbekiston ko'rsatkichi (6.4) MDH o'rtacha darajasidan pastroq, biroq Yevropa davlatlaridagi Vision Zero (2.0 - 3.5) standartiga erishish uchun choralar kuchaytirilmoqda.",
+        causesTitle: "Avariyalarning Asosiy Sabablari",
+        transportTitle: "Transport Turlari Ulushi",
+        transportSubtitle: "Hodisalarda ishtirok etgan vositalar taqsimoti",
+        dangerTimeTitle: "Eng Xavfli Vaqt Oralig'i",
+        dangerTimeSubtitle: "Statistika bo'yicha hodisalar cho'qqisi",
+        dangerTimePeakVal: "Hodisalarning 38% qismi",
+        dangerTimePeakDesc: "Tig'iz vaqt, charchoq va yorug'likning kamayishi sabab.",
+        dangerDaysTitle: "Juma va Shanba",
+        dangerDaysVal: "Eng xavfli kunlar",
+        dangerDaysDesc: "Hafta oxiri viloyatlararo qatnovlar va dam olish kunlaridagi harakat intensivligi.",
+        pedestrianStatsTitle: "Piyodalar ishtirokidagi YTH",
+        pedestrianStatsDesc: "Hodisalarning deyarli yarmi piyodalar o'tish joylariga to'g'ri keladi.",
+        regionTableTitle: "Viloyatlar Kesimida YTH va Kameralar Taqsimoti",
+        regionTableSubtitle: "14 ta ma'muriy hudud bo'yicha yillik statistik sarhisob",
+        colRegion: "Hudud / Viloyat",
+        colAccidents: "Yillik YTH lar",
+        colFatalities: "Halok bo'lganlar",
+        colInjured: "Jarohatlanganlar",
+        colRadars: "Radarlar & Kameralar",
+        colRisk: "Xavf darajasi",
+        radarsSubtitle: "Nazorat va fiksatsiya",
+        radarsTitle: "Radarlar va Kuzatuv Kameralari",
+        radarsDesc: "Avtomatlashtirilgan fotoradar majmualari, «Xavfsiz shahar» kameralari hamda tadbirkorlar tomonidan o'rnatilgan statsionar kameralar soni.",
+        optAllRegions: "Barcha viloyatlar",
+        radarMapBannerTitle: "YHXX Onlayn Radar Xaritasi",
+        radarMapBannerDesc: "Barcha tasdiqlangan va sertifikatlangan statsionar radarlar ro'yxati YHXX rasmiy portalida e'lon qilib boriladi.",
+        btnOpenYhxx: "YHXX.UZ ga o'tish",
+        zonesSubtitle: "Qoidalar va Cheklovlar",
+        zonesTitle: "Qayerlarda Mashinada Yurish Taqiqlanadi?",
+        zonesDesc: "Piyodalar xavfsizligini ta'minlash va shahar muhitini saqlash maqsadida harakatlanish qat'iyan man etilgan zonalar hamda yo'l belgilari.",
+        truckRestrTitle: "Yuk Mashinalari Cheklovi",
+        truckRestrDesc: "Toshkent shahri va viloyat markazlarida ruxsat etilgan to'la vazni 5 tonnadan ortiq yuk mashinalarining tig'iz soatlarda (07:00-10:00 va 17:00-20:00) markaziy ko'chalarga kirishi taqiqlanadi. (MJtK 128-modda).",
+        ecoRestrTitle: "Ekologik Zonalar va «Toza Havo»",
+        ecoRestrDesc: "Shahar markazlarida ekologik stikerlar tizimi bosqichma-bosqich joriy etilmoqda. Chiqindi me'yoridan ortiq bo'lgan (qizil toifa) mashinalar uchun markaziy zonalarda harakatlanish cheklanadi.",
+        finesSubtitle: "O'zbekiston Respublikasi MJtK",
+        finesTitle: "Qoidabuzarliklar va Jarimalar Jadvali",
+        finesBhmIntro: "Amaldagi BHM qiymati:",
+        finesBhmIntro2: "Barcha jarimalar avtomatik milliy valyutada hisoblanadi.",
+        lblSearch: "Qidirish",
+        lblCategory: "Toifa bo'yicha",
+        catAll: "Barcha qoidabuzarliklar",
+        catSpeed: "Tezlik bilan bog'liq",
+        catDangerous: "O'ta xavfli (mastlik, avariya)",
+        catDoc: "Hujjat va qoidalar (kamar, telefon)",
+        catTech: "Texnik holat (tonirovka)",
+        lblSort: "Saralash",
+        sortDefault: "Odatiy tartib",
+        sortFineAsc: "Jarima: Avval arzonroq",
+        sortFineDesc: "Jarima: Avval qimmatroq",
+        sortPointsDesc: "Jarima ballari: Ko'pdan kamga",
+        colViolation: "Qoidabuzarlik Turi",
+        colArticle: "MJtK Moddasi",
+        colBhm: "BHM Miqdori",
+        colSum: "Summasi (So'mda)",
+        colPoints: "Jarima Balli",
+        colConsequences: "Qo'shimcha Chora",
+        finesDiscountNote: "15 kun ichida to'lansa 50%, 30 kun ichida to'lansa 30% chegirma mavjud.",
+        pointsSubtitle: "Yangi mexanizm",
+        pointsTitle: "Jarima Ballari Tizimi va Hisoblagich",
+        pointsDesc: "Qoidabuzarlik uchun jarimadan tashqari ballar hisoblanadi. 12 ball to'plansa — haydovchilik huquqidan mahrum etiladi!",
+        howPointsWorkTitle: "Ballar Qanday Hisoblanadi?",
+        howPointsWorkDesc: "Har bir qoidabuzarlik uchun og'irlik darajasiga ko'ra 0.5 balldan 3 ballgacha belgilanadi. Yil davomida to'plangan ballar jamlanadi.",
+        pointRule1: "<strong>12 ballga yetsa:</strong> Sud qarori bilan transport boshqarish huquqidan mahrum qilinadi (6 oydan 3 yilgacha).",
+        pointRule2: "<strong>Ballarni tozalash:</strong> Oxirgi qoidabuzarlikdan keyin 1 yil mobaynida yangi jarima olinmasa, ballar avtomatik nolga tenglashtiriladi.",
+        pointRule3: "<strong>Qanday tekshiriladi:</strong> Yagona interaktiv portal (my.gov.uz) yoki YHXX mobil ilovasida guvohnoma seriyasini kiritib tekshiriladi.",
+        gaugeSub: "Tanlangan qoidabuzarliklar bo'yicha",
+        gaugeTitle: "Sizning Hozirgi Xavf Ko'rsatkichingiz",
+        outOf12: "Jami ball / 12 ball",
+        calcEstFine: "Taxminiy jarima:",
+        calcSelectorTitle: "Interaktiv Ball Hisoblagich",
+        calcSelectorDesc: "Qoidabuzarliklarni belgilab, to'planadigan ball va summani hisoblang",
+        btnReset: "Tozalash",
+        repSubtitle: "Fuqarolik tashabbusi",
+        repTitle: "Yomon Yo'llar va Murojaat Qilish",
+        repDesc: "Chuqurlar, yoritilmagan ko'chalar va nosoz belgilar yuzlab avariyalarga sabab bo'ladi. Muammoni birgalikda bartaraf etaylik!",
+        officialChTitle: "Rasmiy Shikoyat Qilish Kanallari",
+        officialChDesc: "Yo'l nosozligi tufayli mashinangizga ziyon yetsa yoki xavfli chuqurlarga duch kelsangiz, quyidagi portallarga murojaat qiling:",
+        driverActionTitle: "Haydovchi Nima Qilishi Kerak?",
+        driverAction1: "Chuqurni ko'rganda keskin tormoz bermang va boshqa qatorga qaltis burilmang;",
+        driverAction2: "Zarar yetganda voqea joyidan ketmasdan, YPX xodimlarini chaqirib dalolatnoma tuzdiring;",
+        driverAction3: "Yo'l nosozligini fotosurat va videoga muhrlang (sug'urta va tovon puli uchun shart).",
+        formTitle: "Yomon Yo'l Haqida Xabar Qoldirish",
+        formDesc: "Murojaatingiz elektron portal reyestriga kiritiladi va xavfli nuqta sifatida xaritada belgilanadi.",
+        lblFormName: "Ismingiz (ixtiyoriy)",
+        lblFormPhone: "Telefon raqam (ixtiyoriy)",
+        lblFormType: "Muammo turi *",
+        optSelectIssue: "Muammoni tanlang",
+        optPothole: "Katta chuqur yoki yoriqlar",
+        optLighting: "Tungi yoritish chiroqlari ishlamayapti",
+        optSignBroken: "Yo'l belgisi yoki svetofor nosoz",
+        optLineFaded: "Yo'l chiziqlari o'chib ketgan",
+        optManhole: "Ochiq qolgan lyuk",
+        lblFormLoc: "Aniq joylashuv yoki manzil *",
+        lblFormDesc: "Batafsil izoh *",
+        lblFormPhoto: "Surat biriktirish (makyet)",
+        dropzoneText: "Fotosuratni tanlang yoki shu yerga tashlang",
+        btnSendReport: "Murojaatni Yuborish",
+        reportSuccessTitle: "Murojaat muvaffaqiyatli qabul qilindi!",
+        reportSuccessDesc: "Xabar monitoring tizimiga yuborildi. Faolligingiz uchun tashakkur!",
+        tipsSubtitle: "Hayotiy tavsiyalar",
+        tipsTitle: "Xavfsiz Haydash Bo'yicha 8 Oltin Qoida",
+        tipsDesc: "Ushbu oddiy odatlarga amal qilish Siz va yaqinlaringiz hayotini asrab qoladi.",
+        footerDesc: "O'zbekistonda yo'l harakati xavfsizligi madaniyatini yuksaltirish, qoidabuzarliklarning oldini olish va ochiq ma'lumotlar bilan fuqarolarni xabardor qilish loyihasi.",
+        footerUpdated: "Sayt ma'lumotlari yangilangan sana:",
+        footerSources: "Rasmiy Manbalar",
+        footerLinks: "Muhim Havolalar",
+        footerDisclaimer: "<strong>Yuridik ogohlantirish:</strong> Mazkur portalda keltirilgan ma'lumotlar rasmiy ochiq manbalardan olingan bo'lib, tanishuv xarakteriga ega. U yuridik yoki advokatlik maslahati o'rnini bosmaydi."
+      },
+      ru: {
+        navSubtitle: "Портал Безопасности Движения",
+        navHome: "Главная",
+        navStats: "Статистика",
+        navRadars: "Радары",
+        navZones: "Ограничения",
+        navFines: "Штрафы",
+        navPoints: "Баллы",
+        navReports: "Обращение",
+        quickCalcBtn: "Калькулятор",
+        heroBadge: "На основе официальных данных СБДД МВД",
+        heroTitle1: "Безопасность Дорожного Движения —",
+        heroTitle2: "Каждая Жизнь Бесценна",
+        heroDesc: "Скорость, невнимательность и нарушения ПДД могут изменить жизнь за секунды. Актуальная статистика дорог Узбекистана, штрафные баллы и рекомендации по безопасности.",
+        heroBtnStats: "Вся статистика",
+        heroBtnFines: "Таблица штрафов",
+        cardAccidentsLabel: "ДТП за год",
+        unitCases: "происшествий",
+        sourceYhx: "Источник: СБДД МВД",
+        cardFatalitiesLabel: "Погибшие",
+        cardTragedy: "Трагическая утрата",
+        unitPersons: "человек",
+        oneYearLoss: "Потери за один год",
+        cardInjuredLabel: "Пострадавшие",
+        cardMedical: "Медицинская помощь",
+        cardInjuredDesc: "Получившие травмы",
+        cardRadarsLabel: "Радары и Камеры",
+        cardActive: "Активная фиксация",
+        unitMoreThan: "более",
+        cardRadarsDesc: "Стационарная и онлайн фиксация",
+        avgDailyLabel: "В среднем ДТП в день",
+        avgDailyVal: "~ 27 аварий / в день",
+        avgHourlyLabel: "Частота происшествий",
+        avgHourlyVal: "Каждые ~53 минуты 1 ДТП",
+        avgPopRateLabel: "Смертность на 100 тыс. населения",
+        avgPopRateVal: "6.4 чел. (среднее по СНГ: 7.8)",
+        statsSubtitle: "Глубокая аналитика",
+        statsTitle: "Динамика Дорожно-Транспортных Происшествий",
+        statsDesc: "5-летняя динамика аварий в Узбекистане, сравнение со странами СНГ и мира.",
+        chartTitle: "Динамика за 5 лет (2019–2024)",
+        chartSubtitle: "Количество ДТП и число погибших",
+        chartBadge: "Данные Агентства статистики",
+        chartSource: "* Источник: Департамент общественной безопасности МВД РУз и Агентство статистики",
+        rankingTitle: "Международное сравнение",
+        rankingDesc: "Число погибших в ДТП на 100,000 жителей (ВОЗ / МВД)",
+        rankingNote: "Показатель Узбекистана (6.4) лучше среднего по СНГ, однако страна активно движется к европейским стандартам Vision Zero (2.0 - 3.5).",
+        causesTitle: "Основные Причины Аварий",
+        transportTitle: "Доля Видов Транспорта",
+        transportSubtitle: "Распределение участников происшествий",
+        dangerTimeTitle: "Самое Опасное Время Суток",
+        dangerTimeSubtitle: "Пик происшествий по статистике",
+        dangerTimePeakVal: "38% от общего числа ДТП",
+        dangerTimePeakDesc: "Часы пик, усталость водителей и снижение видимости.",
+        dangerDaysTitle: "Пятница и Суббота",
+        dangerDaysVal: "Самые опасные дни недели",
+        dangerDaysDesc: "Межрегиональные поездки и повышенная интенсивность движения перед выходными.",
+        pedestrianStatsTitle: "ДТП с участием пешеходов",
+        pedestrianStatsDesc: "Почти половина наездов происходит на нерегулируемых пешеходных переходах.",
+        regionTableTitle: "Распределение ДТП и Камер по Регионам",
+        regionTableSubtitle: "Ежегодные показатели по всем 14 регионам страны",
+        colRegion: "Регион / Область",
+        colAccidents: "ДТП за год",
+        colFatalities: "Погибшие",
+        colInjured: "Травмированные",
+        colRadars: "Радары и Камеры",
+        colRisk: "Уровень риска",
+        radarsSubtitle: "Контроль и фиксация",
+        radarsTitle: "Радары и Камеры Наблюдения",
+        radarsDesc: "Автоматизированные комплексы фотовидеофиксации, системы «Безопасный город» и стационарные радары.",
+        optAllRegions: "Все регионы",
+        radarMapBannerTitle: "Онлайн-карта радаров СБДД",
+        radarMapBannerDesc: "Список всех сертифицированных стационарных радаров официально обновляется на портале СБДД.",
+        btnOpenYhxx: "Перейти на YHXX.UZ",
+        zonesSubtitle: "Правила и Ограничения",
+        zonesTitle: "Где Запрещено Движение Автомобилей?",
+        zonesDesc: "Зоны, где движение строго воспрещено для безопасности пешеходов и сохранения городской среды.",
+        truckRestrTitle: "Ограничения для Грузовиков",
+        truckRestrDesc: "В Ташкенте и областных центрах въезд грузовиков свыше 5 тонн в часы пик (07:00-10:00 и 17:00-20:00) запрещен. (Статья 128 КоАО).",
+        ecoRestrTitle: "Экологические Зоны «Чистый Воздух»",
+        ecoRestrDesc: "Внедряется система эко-стикеров. Для автомобилей с высоким уровнем выбросов (красная категория) вводятся ограничения на въезд в центр.",
+        finesSubtitle: "Кодекс об административной ответственности РУз",
+        finesTitle: "Таблица Нарушений и Штрафов",
+        finesBhmIntro: "Текущая ставка БРВ:",
+        finesBhmIntro2: "Все суммы штрафов автоматически рассчитаны в сумах.",
+        lblSearch: "Поиск",
+        lblCategory: "По категории",
+        catAll: "Все нарушения",
+        catSpeed: "Превышение скорости",
+        catDangerous: "Особо опасные (алкоголь, ДТП)",
+        catDoc: "Документы и правила (ремень, телефон)",
+        catTech: "Техническое состояние (тонировка)",
+        lblSort: "Сортировка",
+        sortDefault: "По умолчанию",
+        sortFineAsc: "Штраф: Сначала меньше",
+        sortFineDesc: "Штраф: Сначала больше",
+        sortPointsDesc: "Штрафные баллы: По убыванию",
+        colViolation: "Вид Нарушения",
+        colArticle: "Статья КоАО",
+        colBhm: "В БРВ",
+        colSum: "Сумма (в сумах)",
+        colPoints: "Баллы",
+        colConsequences: "Последствия / Меры",
+        finesDiscountNote: "При оплате в течение 15 дней действует скидка 50%, до 30 дней — 30%.",
+        pointsSubtitle: "Новый правовой механизм",
+        pointsTitle: "Система Штрафных Баллов и Калькулятор",
+        pointsDesc: "За нарушения начисляются штрафные баллы. Набрав 12 баллов — водитель лишается прав!",
+        howPointsWorkTitle: "Как Начисляются Баллы?",
+        howPointsWorkDesc: "За каждое нарушение в зависимости от тяжести начисляется от 0.5 до 3 баллов. Баллы суммируются в течение 1 года.",
+        pointRule1: "<strong>При наборе 12 баллов:</strong> По решению суда водитель лишается права управления (от 6 месяцев до 3 лет).",
+        pointRule2: "<strong>Сгорание баллов:</strong> Если в течение 1 года после последнего нарушения новых штрафов нет, баллы аннулируются.",
+        pointRule3: "<strong>Как проверить:</strong> На портале my.gov.uz или в мобильном приложении СБДД по серии водительского удостоверения.",
+        gaugeSub: "По выбранным нарушениям",
+        gaugeTitle: "Ваш Текущий Индикатор Риска",
+        outOf12: "Всего баллов / из 12",
+        calcEstFine: "Ориентировочный штраф:",
+        calcSelectorTitle: "Интерактивный Калькулятор Баллов",
+        calcSelectorDesc: "Отметьте нарушения, чтобы увидеть суммарные баллы и общий штраф",
+        btnReset: "Очистить",
+        repSubtitle: "Гражданская инициатива",
+        repTitle: "Плохие Дороги и Отправка Жалоб",
+        repDesc: "Ямы, плохое освещение и отсутствие знаков становятся причиной сотен аварий. Устраним проблемы вместе!",
+        officialChTitle: "Официальные Каналы для Обращений",
+        officialChDesc: "Если автомобиль поврежден из-за ямы или вы обнаружили опасный участок дороги, обратитесь:",
+        driverActionTitle: "Что Делать Водителю?",
+        driverAction1: "Увидев яму, избегайте резкого торможения и резких маневров на соседнюю полосу;",
+        driverAction2: "При повреждении авто не покидайте место, вызовите инспекторов УБДД и составьте акт;",
+        driverAction3: "Сделайте фото и видео дорожного полотна с привязкой к местности (нужно для суда и страховой).",
+        formTitle: "Сообщить о Проблеме на Дороге",
+        formDesc: "Ваше обращение фиксируется в электронном реестре как проблемная точка на карте дорог.",
+        lblFormName: "Ваше имя (необязательно)",
+        lblFormPhone: "Номер телефона (необязательно)",
+        lblFormType: "Тип проблемы *",
+        optSelectIssue: "Выберите тип проблемы",
+        optPothole: "Глубокая яма или просадка полотна",
+        optLighting: "Не работает уличное освещение",
+        optSignBroken: "Поврежден дорожный знак или светофор",
+        optLineFaded: "Стерлась дорожная разметка",
+        optManhole: "Открытый или проваленный люк",
+        lblFormLoc: "Точное место или адрес *",
+        lblFormDesc: "Подробное описание *",
+        lblFormPhoto: "Прикрепить фото (макет)",
+        dropzoneText: "Выберите фото или перетащите сюда",
+        btnSendReport: "Отправить Обращение",
+        reportSuccessTitle: "Обращение успешно зарегистрировано!",
+        reportSuccessDesc: "Информация отправлена в систему мониторинга. Спасибо за гражданскую позицию!",
+        tipsSubtitle: "Практические советы",
+        tipsTitle: "8 Золотых Правил Безопасного Вождения",
+        tipsDesc: "Соблюдение этих правил ежедневно сохраняет жизни водителей и пешеходов.",
+        footerDesc: "Проект повышения правовой культуры и безопасности на дорогах Узбекистана через открытые данные.",
+        footerUpdated: "Дата обновления информации:",
+        footerSources: "Официальные Источники",
+        footerLinks: "Полезные Ссылки",
+        footerDisclaimer: "<strong>Юридическое уведомление:</strong> Данные собраны из официальных открытых источников и носят информационный характер. Они не заменяют официальную юридическую консультацию."
+      }
+    };
+
+    /**
+     * CENTRALIZED DATA OBJECT WITH LOCALIZED CONTENTS
+     */
+    const APP_DATA = {
+      bhm: 375000, // 1 BHM (BRV) in UZS
+
+      trends: {
+        labels: ['2019', '2020', '2021', '2022', '2023', '2024'],
+        accidents: [8588, 6982, 10001, 9901, 9839, 9710],
+        fatalities: [2094, 1962, 2426, 2356, 2282, 2190]
+      },
+
+      internationalComparison: [
+        { nameUz: "Shvetsiya (Vision Zero)", nameRu: "Швеция (Vision Zero)", rate: 2.1, max: 15, flag: "🇸🇪" },
+        { nameUz: "Germaniya", nameRu: "Германия", rate: 3.7, max: 15, flag: "🇩🇪" },
+        { nameUz: "O'zbekiston", nameRu: "Узбекистан", rate: 6.4, max: 15, flag: "🇺🇿", isCurrent: true },
+        { nameUz: "MDH o'rtachasi", nameRu: "Среднее по СНГ", rate: 7.8, max: 15, flag: "🏛️" },
+        { nameUz: "Rossiya", nameRu: "Россия", rate: 10.8, max: 15, flag: "🇷🇺" },
+        { nameUz: "Dunyo o'rtachasi", nameRu: "Среднемировое", rate: 16.7, max: 17, flag: "🌐" }
+      ],
+
+      causes: [
+        { titleUz: "Tezlikni oshirish", titleRu: "Превышение скорости", percent: 34, icon: "fa-gauge-high", descUz: "Belgilangan tezlik me'yorlariga rioya qilmaslik", descRu: "Несоблюдение установленного скоростного режима" },
+        { titleUz: "Piyodalar o'tish qoidasi", titleRu: "Нарушение на переходах", percent: 23, icon: "fa-person-walking", descUz: "Tartibga solinmagan o'tish joylarida yo'l bermaslik", descRu: "Непредоставление преимущества пешеходам" },
+        { titleUz: "Charchoq va uxlab qolish", titleRu: "Усталость и сон за рулем", percent: 14, icon: "fa-bed", descUz: "Tungi reyslarda haydovchining uxlab qolishi", descRu: "Потеря бдительности и сон в дальних рейсах" },
+        { titleUz: "Qarama-qarshi yo'lga chiqish", titleRu: "Выезд на встречную полосу", percent: 12, icon: "fa-arrows-split-up-and-left", descUz: "Qoidani buzib quvib o'tish", descRu: "Опасный обгон с нарушением разметки" },
+        { titleUz: "Mast holda haydash", titleRu: "Вождение в нетрезвом виде", percent: 8, icon: "fa-wine-bottle", descUz: "Alkogol yoki moddalar ta'sirida boshqarish", descRu: "Управление под воздействием алкоголя" },
+        { titleUz: "Yo'l holati va nosozlik", titleRu: "Состояние дорог и техсостояние", percent: 9, icon: "fa-wrench", descUz: "Chuqurlar, yomon yoritish va tormoz nosozligi", descRu: "Ямы, слабая освещенность и неисправность тормозов" }
+      ],
+
+      vehicleTypes: {
+        labelsUz: ["Yengil avtomobil", "Piyodalar ishtirokida", "Yuk mashinalari", "Moped & Mototsikl", "Avtobuslar"],
+        labelsRu: ["Легковые авто", "С участием пешеходов", "Грузовики", "Мопеды и Мото", "Автобусы"],
+        data: [61, 24, 7, 5, 3]
+      },
+
+      regions: [
+        { id: "tashkent_city", nameUz: "Toshkent shahri", nameRu: "г. Ташкент", accidents: 1248, fatalities: 98, injured: 1320, radars: 540, riskUz: "Yuqori", riskRu: "Высокий" },
+        { id: "tashkent_obl", nameUz: "Toshkent viloyati", nameRu: "Ташкентская область", accidents: 1120, fatalities: 285, injured: 1050, radars: 390, riskUz: "O'ta Yuqori", riskRu: "Критический" },
+        { id: "fergana", nameUz: "Farg'ona viloyati", nameRu: "Ферганская область", accidents: 1060, fatalities: 242, injured: 990, radars: 280, riskUz: "Yuqori", riskRu: "Высокий" },
+        { id: "samarkand", nameUz: "Samarqand viloyati", nameRu: "Самаркандская область", accidents: 990, fatalities: 260, injured: 930, radars: 310, riskUz: "Yuqori", riskRu: "Высокий" },
+        { id: "andijan", nameUz: "Andijon viloyati", nameRu: "Андижанская область", accidents: 850, fatalities: 185, injured: 810, radars: 210, riskUz: "Yuqori", riskRu: "Высокий" },
+        { id: "namangan", nameUz: "Namangan viloyati", nameRu: "Наманганская область", accidents: 780, fatalities: 168, injured: 740, radars: 195, riskUz: "O'rtacha", riskRu: "Средний" },
+        { id: "qashqadaryo", nameUz: "Qashqadaryo viloyati", nameRu: "Кашкадарьинская область", accidents: 740, fatalities: 220, injured: 710, radars: 165, riskUz: "Yuqori", riskRu: "Высокий" },
+        { id: "surxondaryo", nameUz: "Surxondaryo viloyati", nameRu: "Сурхандарьинская область", accidents: 620, fatalities: 175, injured: 590, radars: 130, riskUz: "O'rtacha", riskRu: "Средний" },
+        { id: "bukhara", nameUz: "Buxoro viloyati", nameRu: "Бухарская область", accidents: 580, fatalities: 145, injured: 560, radars: 155, riskUz: "O'rtacha", riskRu: "Средний" },
+        { id: "khorezm", nameUz: "Xorazm viloyati", nameRu: "Хорезмская область", accidents: 510, fatalities: 110, injured: 490, radars: 125, riskUz: "O'rtacha", riskRu: "Средний" },
+        { id: "jizzakh", nameUz: "Jizzax viloyati", nameRu: "Джизакская область", accidents: 460, fatalities: 152, injured: 420, radars: 105, riskUz: "Yuqori", riskRu: "Высокий" },
+        { id: "karakalpakstan", nameUz: "Qoraqalpog'iston Resp.", nameRu: "Респ. Каракалпакстан", accidents: 410, fatalities: 125, injured: 380, radars: 110, riskUz: "O'rtacha", riskRu: "Средний" },
+        { id: "navoiy", nameUz: "Navoiy viloyati", nameRu: "Навоийская область", accidents: 310, fatalities: 84, injured: 290, radars: 80, riskUz: "Past", riskRu: "Низкий" },
+        { id: "sirdaryo", nameUz: "Sirdaryo viloyati", nameRu: "Сырдарьинская область", accidents: 260, fatalities: 78, injured: 240, radars: 60, riskUz: "Past", riskRu: "Низкий" }
+      ],
+
+      restrictedZones: [
+        {
+          titleUz: "Piyodalar Zonasi (Belgi 5.33)",
+          titleRu: "Пешеходная Зона (Знак 5.33)",
+          icon: "fa-person-walking",
+          color: "border-blue-500 text-blue-500",
+          descUz: "Faqat piyodalar uchun mo'ljallangan. Avtomobillar kirishi mutlaqo taqiqlanadi (xizmat ko'rsatuvchi transport istisno).",
+          descRu: "Предназначена только для пешеходов. Въезд механических ТС строго воспрещен.",
+          fineUz: "1 BHM (375,000 so'm)",
+          fineRu: "1 БРВ (375,000 сум)"
+        },
+        {
+          titleUz: "Trotuar va Piyodalar Yo'lkasi",
+          titleRu: "Тротуары и Дорожки",
+          icon: "fa-shoe-prints",
+          color: "border-red-500 text-red-500",
+          descUz: "Piyodalar harakatiga xalal berib yurish yoki to'xtab turish qat'iyan man etiladi.",
+          descRu: "Движение и стоянка авто на тротуарах строго запрещены.",
+          fineUz: "MJtK 128-modda, 1 BHM",
+          fineRu: "Статья 128 КоАО, 1 БРВ"
+        },
+        {
+          titleUz: "Velosiped Yo'lkasi (Belgi 4.5)",
+          titleRu: "Велосипедная Дорожка (Знак 4.5)",
+          icon: "fa-bicycle",
+          color: "border-emerald-500 text-emerald-500",
+          descUz: "Maxsus belgilangan veloyo'lakda avtotransport harakatlanishi va to'xtashi taqiqlanadi.",
+          descRu: "Движение и стоянка автомобилей на велодорожках категорически запрещены.",
+          fineUz: "1 BHM jarima",
+          fineRu: "Штраф 1 БРВ"
+        },
+        {
+          titleUz: "Temir Yo'l Kesishmasi",
+          titleRu: "Железнодорожный Переезд",
+          icon: "fa-train",
+          color: "border-red-600 text-red-600",
+          descUz: "Shlagbaum yopilayotganda yoki qizil chiroqda temir yo'lga chiqish o'ta og'ir qoidabuzarlikdir.",
+          descRu: "Выезд на переезд при закрытом шлагбауме или красном сигнале.",
+          fineUz: "3 BHM, 1 ball",
+          fineRu: "3 БРВ, 1 балл"
+        },
+        {
+          titleUz: "Ko'prik va Tunnellar",
+          titleRu: "Мосты и Тоннели",
+          icon: "fa-archway",
+          color: "border-amber-500 text-amber-500",
+          descUz: "Tunnellarda orqaga qaytish, to'xtash yoki quvib o'tish taqiqlanadi.",
+          descRu: "В тоннелях запрещены разворот, остановка и опасный обгон.",
+          fineUz: "MJtK 128-modda",
+          fineRu: "Статья 128 КоАО"
+        },
+        {
+          titleUz: "Yuk Mashinalari Cheklovi",
+          titleRu: "Ограничение Грузовиков",
+          icon: "fa-truck",
+          color: "border-purple-500 text-purple-500",
+          descUz: "5 tonnadan og'ir yuk mashinalarining tig'iz soatlarda markaziy ko'chalarga kirishi man etiladi.",
+          descRu: "Грузовикам свыше 5 тонн запрещен въезд в центр в часы пик.",
+          fineUz: "1 BHM dan boshlanadi",
+          fineRu: "От 1 БРВ"
+        }
+      ],
+
+      fines: [
+        {
+          id: "sp1",
+          category: "tezlik",
+          titleUz: "Tezlikni 20 km/soatgacha oshirish",
+          titleRu: "Превышение скорости до 20 км/ч",
+          article: "128-3-m, 1-q",
+          bhmMin: 1,
+          points: 0.5,
+          extraUz: "15 kun ichida 50% chegirma",
+          extraRu: "Скидка 50% при оплате за 15 дней"
+        },
+        {
+          id: "sp2",
+          category: "tezlik",
+          titleUz: "Tezlikni 20 dan 40 km/soatgacha oshirish",
+          titleRu: "Превышение скорости от 20 до 40 км/ч",
+          article: "128-3-m, 2-q",
+          bhmMin: 5,
+          points: 1.0,
+          extraUz: "Radarlar avtomatik qayd etadi",
+          extraRu: "Фиксация радарами и камерами"
+        },
+        {
+          id: "sp3",
+          category: "tezlik",
+          titleUz: "Tezlikni 40 km/soatdan ortiq oshirish",
+          titleRu: "Превышение скорости более чем на 40 км/ч",
+          article: "128-3-m, 3-q",
+          bhmMin: 9,
+          points: 2.0,
+          extraUz: "Takrorlansa: guvohnomadan 1 yil mahrum qilish",
+          extraRu: "Повторно в течение года: лишение прав на 1 год"
+        },
+        {
+          id: "red_light",
+          category: "xavfli",
+          titleUz: "Svetoforning qizil chirog'ida o'tish",
+          titleRu: "Проезд на запрещающий сигнал светофора",
+          article: "128-4-m, 2-q",
+          bhmMin: 2,
+          points: 1.0,
+          extraUz: "Kamera orqali avtomatik jarima",
+          extraRu: "Автоматический штраф с камер"
+        },
+        {
+          id: "drunk",
+          category: "xavfli",
+          titleUz: "Transportni mast holda boshqarish",
+          titleRu: "Управление авто в состоянии опьянения",
+          article: "131-modda",
+          bhmMin: 25,
+          points: 3.0,
+          extraUz: "1.5 yildan 3 yilgacha haydovchilikdan mahrum qilish, jarima maydoni",
+          extraRu: "Лишение прав от 1.5 до 3 лет, штрафстоянка"
+        },
+        {
+          id: "no_license",
+          category: "hujjat",
+          titleUz: "Haydovchilik guvohnomasiz boshqarish",
+          titleRu: "Управление без водительского удостоверения",
+          article: "135-modda",
+          bhmMin: 5,
+          points: 1.0,
+          extraUz: "Transport vositasini vaqtincha to'xtatish",
+          extraRu: "Задержание транспортного средства"
+        },
+        {
+          id: "seatbelt",
+          category: "hujjat",
+          titleUz: "Xavfsizlik kamarini taqmaslik",
+          titleRu: "Непристегнутый ремень безопасности",
+          article: "125-m, 2-q",
+          bhmMin: 0.5,
+          points: 0.5,
+          extraUz: "Haydovchi va oldingi yo'lovchi uchun majburiy",
+          extraRu: "Обязательно для водителя и переднего пассажира"
+        },
+        {
+          id: "phone",
+          category: "hujjat",
+          titleUz: "Rulda telefondan foydalanish",
+          titleRu: "Использование телефона во время движения",
+          article: "128-1-modda",
+          bhmMin: 3,
+          points: 1.0,
+          extraUz: "Hands-free qurilmasiz gaplashish yoki yozish",
+          extraRu: "Разговор или набор сообщений без hands-free"
+        },
+        {
+          id: "child_seat",
+          category: "hujjat",
+          titleUz: "Bolalarni maxsus o'rindiqsiz (kreslo) tashish",
+          titleRu: "Перевозка детей без специального кресла",
+          article: "128-modda",
+          bhmMin: 1,
+          points: 0.5,
+          extraUz: "12 yoshgacha bolalar uchun",
+          extraRu: "Для детей возрастом до 12 лет"
+        },
+        {
+          id: "tint",
+          category: "texnik",
+          titleUz: "Ruxsatnomasiz qoraytirilgan (tonirovka) oyna",
+          titleRu: "Тонировка стекол без разрешения",
+          article: "126-modda",
+          bhmMin: 25,
+          points: 1.0,
+          extraUz: "Takrorlansa 40 BHM, ruxsatnoma tekshiriladi",
+          extraRu: "Повторно в течение года 40 БРВ"
+        },
+        {
+          id: "escape",
+          category: "xavfli",
+          titleUz: "YTH joyidan qochib ketish",
+          titleRu: "Оставление места дорожного происшествия",
+          article: "137-modda",
+          bhmMin: 30,
+          points: 3.0,
+          extraUz: "2 yilgacha huquqdan mahrum qilish yoki 15 sutka qamoq",
+          extraRu: "Лишение прав до 2 лет либо арест до 15 суток"
+        }
+      ],
+
+      safetyRules: [
+        { icon: "fa-gauge", titleUz: "Tezlik chegarasiga so'zsiz rioya qiling", titleRu: "Соблюдайте скоростной режим", descUz: "Aholi punktlarida 60 km/soat, maktablar oldida 30 km/soat me'yoriga amal qiling.", descRu: "В населенных пунктах 60 км/ч, у школ и детсадов 30 км/ч." },
+        { icon: "fa-shield", titleUz: "Xavfsizlik kamari — hayot sug'urtasi", titleRu: "Ремень — страховка жизни", descUz: "Kamar taqish o'lim xavfini 50% ga, jiddiy jarohatlarni 75% ga kamaytiradi.", descRu: "Пристегнутый ремень снижает риск гибели на 50%, а тяжелых травм на 75%." },
+        { icon: "fa-mobile-screen", titleUz: "Telefonga mutlaqo chalg'imang", titleRu: "Не отвлекайтесь на смартфон", descUz: "Telefonda 3 soniya yozish — ko'zni yumib 50 metr yurish bilan teng.", descRu: "3 секунды в телефоне на скорости 60 км/ч — это 50 метров вслепую." },
+        { icon: "fa-child", titleUz: "Bolalarga avtokreslo o'rnating", titleRu: "Используйте детские автокресла", descUz: "Oddiy o'rindiq bolaning gavdasiga mos kelmaydi va to'qnashuvda asramaydi.", descRu: "Обычный взрослый ремень не фиксирует анатомию ребенка при ударе." },
+        { icon: "fa-eye", titleUz: "Piyodalar o'tishida tezlikni tushiring", titleRu: "Тормозите перед «зеброй»", descUz: "Piyodalar o'tish joyiga yaqinlashganda oyog'ingizni tormozga shaylang.", descRu: "Заранее переносите ногу на педаль тормоза перед переходом." },
+        { icon: "fa-car-side", titleUz: "Xavfsiz oraliq masofani saqlang", titleRu: "Держите безопасную дистанцию", descUz: "Quruq yo'lda kamida 2 soniyalik, yomg'ir va muzlamada 4 soniya oraliq tuting.", descRu: "В сухую погоду интервал 2 секунды, в дождь и гололед — от 4 секунд." },
+        { icon: "fa-bed", titleUz: "Charchoq va uyquda rulga o'tirmang", titleRu: "Не садитесь за руль уставшим", descUz: "Uyqu elitganda yo'l chetiga to'xtab, 20 daqiqa uxlab olish hayotni asraydi.", descRu: "Если клонит в сон, остановитесь на 20 минут в безопасном месте." },
+        { icon: "fa-ban", titleUz: "Mast holda haydash — o'ta og'ir jinoyat", titleRu: "Нетрезвое вождение недопустимо", descUz: "Spirtli ichimlik reaksiyani susaytiradi. Taksidan foydalanish har doim yaxshiroq.", descRu: "Алкоголь резко снижает реакцию. Всегда вызывайте такси." }
+      ]
+    };
+
+    /**
+     * GLOBAL STATE
+     */
+    let currentLang = localStorage.getItem('site_lang') || 'uz';
+    let selectedViolations = new Set();
+    let trendChartInstance = null;
+    let vehicleChartInstance = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      initBurgerMenu();
+      initLanguage();
+      initCounters();
+      setupEventListeners();
+      renderAll();
+    });
+
+    // Day / Night Theme logic
+    function initTheme() {
+      const isDark = localStorage.getItem('theme') !== 'light';
+      if (!isDark) {
+        document.documentElement.classList.remove('dark');
+      } else {
+        document.documentElement.classList.add('dark');
+      }
+
+      const toggleBtn = document.getElementById('themeToggleBtn');
+      toggleBtn.addEventListener('click', () => {
+        const currentlyDark = document.documentElement.classList.toggle('dark');
+        localStorage.setItem('theme', currentlyDark ? 'dark' : 'light');
+        
+        // Re-render charts with updated grid lines
+        renderTrendChart();
+        renderVehicleChart();
+        
+        showToast(
+          currentLang === 'uz' 
+            ? (currentlyDark ? "Tungi rejim yoqildi 🌙" : "Kunduzgi rejim yoqildi ☀️") 
+            : (currentlyDark ? "Включен ночной режим 🌙" : "Включен дневной режим ☀️"),
+          "info"
+        );
+      });
+    }
+
+    // Burger Menu Logic
+    function initBurgerMenu() {
+      const burgerBtn = document.getElementById('burgerBtn');
+      const mobileDrawer = document.getElementById('mobileDrawer');
+      const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+
+      burgerBtn.addEventListener('click', () => {
+        const isOpen = !mobileDrawer.classList.contains('hidden');
+        if (isOpen) {
+          mobileDrawer.classList.add('hidden');
+          burgerBtn.classList.remove('burger-active');
+        } else {
+          mobileDrawer.classList.remove('hidden');
+          burgerBtn.classList.add('burger-active');
+        }
+      });
+
+      // Close menu when a link is clicked
+      mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          mobileDrawer.classList.add('hidden');
+          burgerBtn.classList.remove('burger-active');
+        });
+      });
+    }
+
+    // Language Toggle Logic
+    function initLanguage() {
+      const btnUz = document.getElementById('langUzBtn');
+      const btnRu = document.getElementById('langRuBtn');
+
+      const setLanguage = (lang) => {
+        currentLang = lang;
+        localStorage.setItem('site_lang', lang);
+
+        if (lang === 'uz') {
+          btnUz.className = "px-2.5 py-1 text-xs font-bold rounded-lg transition-all bg-amber-500 text-gray-950 shadow-sm";
+          btnRu.className = "px-2.5 py-1 text-xs font-bold text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white rounded-lg transition-all";
+          document.documentElement.lang = "uz";
+        } else {
+          btnRu.className = "px-2.5 py-1 text-xs font-bold rounded-lg transition-all bg-amber-500 text-gray-950 shadow-sm";
+          btnUz.className = "px-2.5 py-1 text-xs font-bold text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white rounded-lg transition-all";
+          document.documentElement.lang = "ru";
+        }
+
+        // Apply translations to DOM
+        applyStaticTranslations();
+        renderAll();
+        showToast(lang === 'uz' ? "Sayt tili: O'zbekcha" : "Язык сайта: Русский", "info");
+      };
+
+      btnUz.addEventListener('click', () => setLanguage('uz'));
+      btnRu.addEventListener('click', () => setLanguage('ru'));
+
+      // Apply initial on load
+      setLanguage(currentLang);
+    }
+
+    function applyStaticTranslations() {
+      const dict = I18N[currentLang];
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) {
+          el.innerHTML = dict[key];
+        }
+      });
+
+      // Update placeholders
+      if (currentLang === 'uz') {
+        document.getElementById('regionSearchInput').placeholder = "Viloyat nomini kiriting...";
+        document.getElementById('finesSearch').placeholder = "Tezlik, kamar, mastlik...";
+      } else {
+        document.getElementById('regionSearchInput').placeholder = "Введите название региона...";
+        document.getElementById('finesSearch').placeholder = "Скорость, ремень, алкоголь...";
+      }
+    }
+
+    function renderAll() {
+      renderInternationalComparison();
+      renderCauses();
+      renderTrendChart();
+      renderVehicleChart();
+      renderRegionsTable();
+      renderRadarsSection();
+      renderRestrictedZones();
+      renderFinesTable();
+      renderCalculatorOptions();
+      updateCalculatorOutput();
+      renderSafetyRules();
+    }
+
+    // Number counters
+    function initCounters() {
+      const counters = document.querySelectorAll('.counter');
+      counters.forEach(counter => {
+        const target = +counter.getAttribute('data-target');
+        const duration = 1600;
+        const step = target / (duration / 25);
+        let current = 0;
+
+        const timer = setInterval(() => {
+          current += step;
+          if (current >= target) {
+            counter.innerText = target.toLocaleString('uz-UZ');
+            clearInterval(timer);
+          } else {
+            counter.innerText = Math.floor(current).toLocaleString('uz-UZ');
+          }
+        }, 25);
+      });
+    }
+
+    function renderInternationalComparison() {
+      const container = document.getElementById('internationalStats');
+      container.innerHTML = APP_DATA.internationalComparison.map(item => {
+        const percent = Math.min(100, (item.rate / item.max) * 100);
+        const name = currentLang === 'uz' ? item.nameUz : item.nameRu;
+        const isTarget = item.isCurrent ? 'text-amber-500 font-bold' : 'text-gray-700 dark:text-gray-300';
+        const barColor = item.isCurrent ? 'bg-amber-500' : (item.rate > 10 ? 'bg-red-500' : 'bg-blue-500');
+        const unit = currentLang === 'uz' ? "nafar" : "чел.";
+
+        return `
+          <div>
+            <div class="flex justify-between items-center text-xs mb-1">
+              <span class="${isTarget} flex items-center gap-1.5">${item.flag} ${name}</span>
+              <span class="${isTarget}">${item.rate} ${unit}</span>
+            </div>
+            <div class="w-full bg-gray-200 dark:bg-gray-800 h-2 rounded-full overflow-hidden">
+              <div class="${barColor} h-full rounded-full transition-all duration-700" style="width: ${percent}%"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderCauses() {
+      const container = document.getElementById('causesList');
+      container.innerHTML = APP_DATA.causes.map(c => {
+        const title = currentLang === 'uz' ? c.titleUz : c.titleRu;
+        const desc = currentLang === 'uz' ? c.descUz : c.descRu;
+
+        return `
+          <div>
+            <div class="flex justify-between items-center text-xs mb-1">
+              <span class="font-medium text-gray-800 dark:text-gray-200 flex items-center gap-2">
+                <i class="fa-solid ${c.icon} text-amber-500 text-xs w-4"></i> ${title}
+              </span>
+              <span class="font-bold text-amber-600 dark:text-amber-400">${c.percent}%</span>
+            </div>
+            <div class="w-full bg-gray-200 dark:bg-gray-800 h-2 rounded-full overflow-hidden">
+              <div class="bg-gradient-to-r from-amber-500 to-red-500 h-full rounded-full" style="width: ${c.percent * 2.5}%"></div>
+            </div>
+            <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-1">${desc}</p>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderTrendChart() {
+      const isDark = document.documentElement.classList.contains('dark');
+      const gridColor = isDark ? '#1F2937' : '#E2E8F0';
+      const textColor = isDark ? '#9CA3AF' : '#64748B';
+
+      const label1 = currentLang === 'uz' ? "Yo'l-transport hodisalari" : "Количество ДТП";
+      const label2 = currentLang === 'uz' ? "Halok bo'lganlar" : "Погибшие";
+
+      if (trendChartInstance) {
+        trendChartInstance.destroy();
+      }
+
+      const ctx = document.getElementById('trendChart').getContext('2d');
+      trendChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: APP_DATA.trends.labels,
+          datasets: [
+            {
+              label: label1,
+              data: APP_DATA.trends.accidents,
+              borderColor: '#F59E0B',
+              backgroundColor: 'rgba(245, 158, 11, 0.1)',
+              borderWidth: 3,
+              tension: 0.35,
+              fill: true,
+              pointBackgroundColor: '#F59E0B',
+              pointRadius: 4
+            },
+            {
+              label: label2,
+              data: APP_DATA.trends.fatalities,
+              borderColor: '#EF4444',
+              backgroundColor: 'transparent',
+              borderWidth: 2,
+              borderDash: [5, 5],
+              tension: 0.35,
+              pointBackgroundColor: '#EF4444',
+              pointRadius: 4
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              labels: { color: textColor, font: { size: 11, family: 'Inter' } }
+            },
+            tooltip: {
+              padding: 10,
+              backgroundColor: isDark ? '#111827' : '#FFFFFF',
+              titleColor: isDark ? '#F9FAFB' : '#0F172A',
+              bodyColor: isDark ? '#D1D5DB' : '#334155',
+              borderColor: isDark ? '#374151' : '#CBD5E1',
+              borderWidth: 1
+            }
+          },
+          scales: {
+            x: {
+              grid: { color: gridColor },
+              ticks: { color: textColor }
+            },
+            y: {
+              grid: { color: gridColor },
+              ticks: { color: textColor }
+            }
+          }
+        }
+      });
+    }
+
+    function renderVehicleChart() {
+      const isDark = document.documentElement.classList.contains('dark');
+      const textColor = isDark ? '#9CA3AF' : '#64748B';
+
+      if (vehicleChartInstance) {
+        vehicleChartInstance.destroy();
+      }
+
+      const labels = currentLang === 'uz' ? APP_DATA.vehicleTypes.labelsUz : APP_DATA.vehicleTypes.labelsRu;
+      const ctx = document.getElementById('vehicleChart').getContext('2d');
+      vehicleChartInstance = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: labels,
+          datasets: [{
+            data: APP_DATA.vehicleTypes.data,
+            backgroundColor: ['#F59E0B', '#EF4444', '#3B82F6', '#10B981', '#8B5CF6'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: { color: textColor, boxWidth: 12, font: { size: 10, family: 'Inter' } }
+            }
+          },
+          cutout: '68%'
+        }
+      });
+    }
+
+    function renderRegionsTable(filter = '') {
+      const tbody = document.getElementById('regionsTableBody');
+      const filtered = APP_DATA.regions.filter(r => {
+        const name = currentLang === 'uz' ? r.nameUz : r.nameRu;
+        return name.toLowerCase().includes(filter.toLowerCase());
+      });
+
+      tbody.innerHTML = filtered.map(r => {
+        const name = currentLang === 'uz' ? r.nameUz : r.nameRu;
+        const risk = currentLang === 'uz' ? r.riskUz : r.riskRu;
+
+        let badgeClass = 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300';
+        if (r.riskUz === "O'ta Yuqori") badgeClass = 'bg-red-100 dark:bg-red-950 text-red-600 dark:text-red-400 border border-red-300 dark:border-red-800';
+        else if (r.riskUz === "Yuqori") badgeClass = 'bg-amber-100 dark:bg-amber-950 text-amber-600 dark:text-amber-400 border border-amber-300 dark:border-amber-800';
+        else if (r.riskUz === "Past") badgeClass = 'bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 border border-emerald-300 dark:border-emerald-800';
+
+        const unitCameras = currentLang === 'uz' ? "ta" : "шт";
+
+        return `
+          <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/40 transition-colors">
+            <td class="px-4 py-3 font-semibold text-gray-900 dark:text-white">${name}</td>
+            <td class="px-4 py-3 text-center text-amber-600 dark:text-amber-400 font-bold">${r.accidents.toLocaleString('uz-UZ')}</td>
+            <td class="px-4 py-3 text-center text-red-500 font-bold">${r.fatalities.toLocaleString('uz-UZ')}</td>
+            <td class="px-4 py-3 text-center text-gray-700 dark:text-gray-300">${r.injured.toLocaleString('uz-UZ')}</td>
+            <td class="px-4 py-3 text-center text-emerald-600 dark:text-emerald-400">${r.radars} ${unitCameras}</td>
+            <td class="px-4 py-3 text-center">
+              <span class="px-2.5 py-1 rounded-full text-[11px] font-semibold ${badgeClass}">
+                ${risk}
+              </span>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function renderRadarsSection() {
+      const select = document.getElementById('radarFilterRegion');
+      const container = document.getElementById('radarCardsContainer');
+
+      // Preserve current selection if exists
+      const currentSelected = select.value || 'all';
+      select.innerHTML = `<option value="all">${currentLang === 'uz' ? 'Barcha viloyatlar' : 'Все регионы'}</option>`;
+
+      APP_DATA.regions.forEach(reg => {
+        const opt = document.createElement('option');
+        opt.value = reg.id;
+        opt.textContent = currentLang === 'uz' ? reg.nameUz : reg.nameRu;
+        select.appendChild(opt);
+      });
+      select.value = currentSelected;
+
+      const updateCards = (selectedId) => {
+        const list = selectedId === 'all' ? APP_DATA.regions.slice(0, 8) : APP_DATA.regions.filter(r => r.id === selectedId);
+        const activeText = currentLang === 'uz' ? "Faol" : "Активен";
+        const camUnit = currentLang === 'uz' ? "ta kamera" : "камер";
+        const accLabel = currentLang === 'uz' ? "Avariyalar soni:" : "Число ДТП:";
+        const onlineText = currentLang === 'uz' ? "Onlayn fiksatsiya" : "Онлайн-фиксация";
+
+        container.innerHTML = list.map(reg => {
+          const name = currentLang === 'uz' ? reg.nameUz : reg.nameRu;
+          return `
+            <div class="p-5 rounded-2xl bg-white dark:bg-gray-900/90 border border-gray-200 dark:border-gray-800 hover:border-amber-500/40 shadow-sm transition-all">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-bold text-gray-900 dark:text-white">${name}</span>
+                <span class="text-[11px] px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 border border-emerald-300 dark:border-emerald-900">${activeText}</span>
+              </div>
+              <div class="text-3xl font-extrabold text-amber-600 dark:text-amber-400 mb-1">${reg.radars} <span class="text-xs text-gray-500 dark:text-gray-400 font-normal">${camUnit}</span></div>
+              <p class="text-xs text-gray-500 dark:text-gray-400">${accLabel} <strong class="text-gray-800 dark:text-white">${reg.accidents}</strong></p>
+              <div class="mt-3 pt-3 border-t border-gray-100 dark:border-gray-800 text-[11px] text-gray-400 dark:text-gray-500 flex items-center justify-between">
+                <span>${onlineText}</span>
+                <i class="fa-solid fa-signal text-emerald-500"></i>
+              </div>
+            </div>
+          `;
+        }).join('');
+      };
+
+      updateCards(select.value);
+
+      select.onchange = (e) => {
+        updateCards(e.target.value);
+      };
+    }
+
+    function renderRestrictedZones() {
+      const container = document.getElementById('signsContainer');
+      const finePrefix = currentLang === 'uz' ? "Jarima:" : "Штраф:";
+
+      container.innerHTML = APP_DATA.restrictedZones.map(zone => {
+        const title = currentLang === 'uz' ? zone.titleUz : zone.titleRu;
+        const desc = currentLang === 'uz' ? zone.descUz : zone.descRu;
+        const fine = currentLang === 'uz' ? zone.fineUz : zone.fineRu;
+
+        return `
+          <div class="p-6 rounded-2xl bg-white dark:bg-gray-900/90 border border-gray-200 dark:border-gray-800 shadow-sm flex flex-col justify-between hover:shadow-md transition-all">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-gray-100 dark:bg-gray-800 border ${zone.color} flex items-center justify-center text-xl mb-4 shadow-sm">
+                <i class="fa-solid ${zone.icon}"></i>
+              </div>
+              <h4 class="text-base font-bold text-gray-900 dark:text-white mb-2">${title}</h4>
+              <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed mb-4">${desc}</p>
+            </div>
+            <div class="pt-3 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between text-xs">
+              <span class="text-gray-400">${finePrefix}</span>
+              <span class="font-semibold text-amber-600 dark:text-amber-400">${fine}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderFinesTable() {
+      const tbody = document.getElementById('finesTableBody');
+      const searchVal = document.getElementById('finesSearch').value.toLowerCase();
+      const catVal = document.getElementById('finesCategory').value;
+      const sortVal = document.getElementById('finesSort').value;
+
+      let list = [...APP_DATA.fines];
+
+      if (catVal !== 'all') {
+        list = list.filter(item => item.category === catVal);
+      }
+
+      if (searchVal) {
+        list = list.filter(item => {
+          const tUz = item.titleUz.toLowerCase();
+          const tRu = item.titleRu.toLowerCase();
+          const art = item.article.toLowerCase();
+          return tUz.includes(searchVal) || tRu.includes(searchVal) || art.includes(searchVal);
+        });
+      }
+
+      if (sortVal === 'fine-asc') {
+        list.sort((a, b) => a.bhmMin - b.bhmMin);
+      } else if (sortVal === 'fine-desc') {
+        list.sort((a, b) => b.bhmMin - a.bhmMin);
+      } else if (sortVal === 'points-desc') {
+        list.sort((a, b) => b.points - a.points);
+      }
+
+      if (list.length === 0) {
+        const noMatch = currentLang === 'uz' ? "Mos keluvchi qoidabuzarlik topilmadi" : "Нарушений не найдено";
+        tbody.innerHTML = `<tr><td colspan="6" class="px-5 py-8 text-center text-gray-400 text-xs">${noMatch}</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = list.map(item => {
+        const title = currentLang === 'uz' ? item.titleUz : item.titleRu;
+        const extra = currentLang === 'uz' ? item.extraUz : item.extraRu;
+        const sumFormatted = (item.bhmMin * APP_DATA.bhm).toLocaleString('uz-UZ') + (currentLang === 'uz' ? " so'm" : " сум");
+        const bhmFormatted = `${item.bhmMin} ${currentLang === 'uz' ? 'BHM' : 'БРВ'}`;
+        const pointsUnit = currentLang === 'uz' ? "ball" : "балла";
+
+        return `
+          <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/40 transition-colors">
+            <td class="px-5 py-4 font-semibold text-gray-900 dark:text-white max-w-xs">
+              ${title}
+            </td>
+            <td class="px-5 py-4 text-xs font-mono text-amber-600 dark:text-amber-400 whitespace-nowrap">
+              ${item.article}
+            </td>
+            <td class="px-5 py-4 text-center font-bold text-gray-700 dark:text-gray-300 whitespace-nowrap">
+              ${bhmFormatted}
+            </td>
+            <td class="px-5 py-4 text-right font-extrabold text-gray-900 dark:text-white whitespace-nowrap">
+              ${sumFormatted}
+            </td>
+            <td class="px-5 py-4 text-center whitespace-nowrap">
+              <span class="inline-block px-2.5 py-1 rounded-full text-xs font-bold ${item.points >= 2 ? 'bg-red-100 dark:bg-red-950 text-red-600 dark:text-red-400 border border-red-300 dark:border-red-800' : 'bg-amber-100 dark:bg-gray-800 text-amber-700 dark:text-amber-400'}">
+                +${item.points} ${pointsUnit}
+              </span>
+            </td>
+            <td class="px-5 py-4 text-xs text-gray-500 dark:text-gray-400">
+              ${extra}
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function renderCalculatorOptions() {
+      const container = document.getElementById('calculatorItemsContainer');
+      const pointUnit = currentLang === 'uz' ? "ball" : "балла";
+      const sumUnit = currentLang === 'uz' ? "so'm" : "сум";
+
+      container.innerHTML = APP_DATA.fines.map(fine => {
+        const title = currentLang === 'uz' ? fine.titleUz : fine.titleRu;
+        const fineSum = (fine.bhmMin * APP_DATA.bhm).toLocaleString('uz-UZ');
+        const isChecked = selectedViolations.has(fine.id) ? 'checked' : '';
+
+        return `
+          <label class="flex items-start gap-3 p-3 rounded-xl bg-gray-50 dark:bg-gray-800/60 hover:bg-gray-100 dark:hover:bg-gray-800 border border-gray-200 dark:border-gray-700/60 cursor-pointer transition-all">
+            <input type="checkbox" value="${fine.id}" ${isChecked} class="calc-checkbox mt-1 w-4 h-4 text-amber-500 bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-600 rounded focus:ring-amber-500">
+            <div class="flex-1 text-xs">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-gray-900 dark:text-white">${title}</span>
+                <span class="text-amber-600 dark:text-amber-400 font-bold ml-2 whitespace-nowrap">+${fine.points} ${pointUnit}</span>
+              </div>
+              <div class="flex items-center justify-between text-gray-500 dark:text-gray-400 mt-1">
+                <span>MJtK: ${fine.article}</span>
+                <span class="text-gray-700 dark:text-gray-300 font-semibold">${fineSum} ${sumUnit}</span>
+              </div>
+            </div>
+          </label>
+        `;
+      }).join('');
+
+      container.querySelectorAll('.calc-checkbox').forEach(cb => {
+        cb.onchange = (e) => {
+          if (e.target.checked) {
+            selectedViolations.add(e.target.value);
+          } else {
+            selectedViolations.delete(e.target.value);
+          }
+          updateCalculatorOutput();
+        };
+      });
+    }
+
+    function updateCalculatorOutput() {
+      let totalPoints = 0;
+      let totalFineSum = 0;
+
+      selectedViolations.forEach(id => {
+        const item = APP_DATA.fines.find(f => f.id === id);
+        if (item) {
+          totalPoints += item.points;
+          totalFineSum += (item.bhmMin * APP_DATA.bhm);
+        }
+      });
+
+      const sumUnit = currentLang === 'uz' ? "so'm" : "сум";
+      document.getElementById('calcTotalPoints').innerText = totalPoints.toFixed(1).replace('.0', '');
+      document.getElementById('calcTotalFine').innerText = totalFineSum.toLocaleString('uz-UZ') + " " + sumUnit;
+
+      const gaugePercent = Math.min(100, (totalPoints / 12) * 100);
+      const progressBar = document.getElementById('gaugeProgressBar');
+      const statusText = document.getElementById('gaugeStatusText');
+
+      progressBar.style.width = `${gaugePercent}%`;
+
+      if (totalPoints === 0) {
+        progressBar.className = 'h-full bg-emerald-500 rounded-full transition-all duration-500';
+        statusText.className = 'mt-3 text-xs font-bold text-emerald-600 dark:text-emerald-400';
+        statusText.innerText = currentLang === 'uz' ? "Xavfsiz holat (Guvohnomaga xavf yo'q)" : "Безопасное состояние (Правам ничего не угрожает)";
+      } else if (totalPoints < 6) {
+        progressBar.className = 'h-full bg-yellow-500 rounded-full transition-all duration-500';
+        statusText.className = 'mt-3 text-xs font-bold text-yellow-600 dark:text-yellow-400';
+        statusText.innerText = currentLang === 'uz' ? "Diqqat! Ballar to'planmoqda" : "Внимание! Баллы накапливаются";
+      } else if (totalPoints < 12) {
+        progressBar.className = 'h-full bg-amber-500 rounded-full transition-all duration-500';
+        statusText.className = 'mt-3 text-xs font-bold text-amber-600 dark:text-amber-400';
+        statusText.innerText = currentLang === 'uz' ? "Jiddiy ogohlantirish! Haydovchilik huquqidan mahrum bo'lish xavfi yaqin" : "Предупреждение! Высокий риск лишения водительских прав";
+      } else {
+        progressBar.className = 'h-full bg-red-600 rounded-full transition-all duration-500 animate-pulse';
+        statusText.className = 'mt-3 text-xs font-bold text-red-600 dark:text-red-500';
+        statusText.innerText = currentLang === 'uz' ? "12 ball to'plandi! Sud qarori bilan guvohnomadan mahrum qilish ko'rib chiqiladi!" : "Набрано 12 баллов! Водитель подлежит лишению прав через суд!";
+      }
+    }
+
+    function renderSafetyRules() {
+      const container = document.getElementById('safetyTipsContainer');
+      container.innerHTML = APP_DATA.safetyRules.map((rule, idx) => {
+        const title = currentLang === 'uz' ? rule.titleUz : rule.titleRu;
+        const desc = currentLang === 'uz' ? rule.descUz : rule.descRu;
+
+        return `
+          <div class="p-6 rounded-2xl bg-white dark:bg-gray-900/90 border border-gray-200 dark:border-gray-800 hover:border-amber-500/40 shadow-sm transition-all flex flex-col">
+            <div class="flex items-center justify-between mb-4">
+              <span class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center text-lg">
+                <i class="fa-solid ${rule.icon}"></i>
+              </span>
+              <span class="text-2xl font-black text-gray-300 dark:text-gray-800">#${idx + 1}</span>
+            </div>
+            <h4 class="text-sm font-bold text-gray-900 dark:text-white mb-2">${title}</h4>
+            <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">${desc}</p>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function setupEventListeners() {
+      // Search in regional table
+      document.getElementById('regionSearchInput').addEventListener('input', (e) => {
+        renderRegionsTable(e.target.value);
+      });
+
+      // Search & Filters in fines
+      document.getElementById('finesSearch').addEventListener('input', renderFinesTable);
+      document.getElementById('finesCategory').addEventListener('change', renderFinesTable);
+      document.getElementById('finesSort').addEventListener('change', renderFinesTable);
+
+      // Calculator reset
+      document.getElementById('resetCalculatorBtn').addEventListener('click', () => {
+        selectedViolations.clear();
+        document.querySelectorAll('.calc-checkbox').forEach(cb => cb.checked = false);
+        updateCalculatorOutput();
+        showToast(currentLang === 'uz' ? "Kalkulyator tozalandi" : "Калькулятор очищен", "info");
+      });
+
+      // Geo location fetcher
+      document.getElementById('geoBtn').addEventListener('click', () => {
+        if ("geolocation" in navigator) {
+          navigator.geolocation.getCurrentPosition(
+            (pos) => {
+              const locInput = document.getElementById('issueLocation');
+              locInput.value = `Geo: ${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)}`;
+              showToast(currentLang === 'uz' ? "Koordinatalar aniqlandi!" : "Координаты определены!", "success");
+            },
+            () => {
+              showToast(currentLang === 'uz' ? "Geolokatsiyaga ruxsat berilmadi" : "Доступ к геопозиции отклонен", "error");
+            }
+          );
+        } else {
+          showToast(currentLang === 'uz' ? "Brauzerda geolokatsiya qo'llab-quvvatlanmaydi" : "Геолокация не поддерживается", "error");
+        }
+      });
+
+      // Mock File upload drag/click
+      const dropZone = document.getElementById('dropZone');
+      const fileInput = document.getElementById('issueFile');
+      const fileStatus = document.getElementById('fileStatus');
+
+      dropZone.addEventListener('click', () => fileInput.click());
+      fileInput.addEventListener('change', () => {
+        if (fileInput.files.length > 0) {
+          fileStatus.innerText = `${currentLang === 'uz' ? 'Tanlandi:' : 'Выбран:'} ${fileInput.files[0].name}`;
+          fileStatus.classList.add('text-amber-500', 'font-semibold');
+        }
+      });
+
+      // Report form submit mock
+      const form = document.getElementById('roadReportForm');
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const type = document.getElementById('issueType').value;
+        const loc = document.getElementById('issueLocation').value;
+        const desc = document.getElementById('issueDesc').value;
+
+        if (!type || !loc || !desc) {
+          showToast(currentLang === 'uz' ? "Iltimos, zarur maydonlarni to'ldiring" : "Пожалуйста, заполните обязательные поля", "error");
+          return;
+        }
+
+        const alertBox = document.getElementById('reportSuccessAlert');
+        alertBox.classList.remove('hidden');
+        form.reset();
+        fileStatus.innerText = currentLang === 'uz' ? "Fotosuratni tanlang yoki shu yerga tashlang" : "Выберите фото или перетащите сюда";
+        fileStatus.classList.remove('text-amber-500', 'font-semibold');
+
+        showToast(currentLang === 'uz' ? "Murojaat muvaffaqiyatli saqlandi!" : "Обращение успешно сохранено!", "success");
+
+        setTimeout(() => {
+          alertBox.classList.add('hidden');
+        }, 5000);
+      });
+    }
+
+    // Helper: Toast Notifications
+    function showToast(msg, type = "info") {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      const toastIcon = document.getElementById('toastIcon');
+
+      toastMsg.innerText = msg;
+      if (type === "success") {
+        toastIcon.className = "fa-solid fa-circle-check text-emerald-400 text-base";
+      } else if (type === "error") {
+        toastIcon.className = "fa-solid fa-triangle-exclamation text-red-400 text-base";
+      } else {
+        toastIcon.className = "fa-solid fa-bell text-amber-400 text-base";
+      }
+
+      toast.classList.remove('translate-y-32');
+      setTimeout(() => {
+        toast.classList.add('translate-y-32');
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
